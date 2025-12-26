@@ -13,6 +13,10 @@ class Header extends StatelessComponent {
 
     return header([
       nav([
+        div(classes: 'brand', [
+          span([.text('Skills Ez')]),
+          small([.text('AI-crafted learning plans')]),
+        ]),
         for (var route in [
           (label: 'Home', path: '/'),
           (label: 'About', path: '/about'),
@@ -38,8 +42,24 @@ class Header extends StatelessComponent {
           height: 3.em,
           radius: .all(.circular(10.px)), 
           overflow: .clip,
-          justifyContent: .spaceBetween,
+          alignItems: .center,
+          gap: 0.25.em,
+          justifyContent: .center,
           backgroundColor: primaryColor,
+        ),
+        css('.brand').styles(
+          display: .flex,
+          alignItems: .center,
+          gap: 0.5.em,
+          padding: EdgeInsets.symmetric(horizontal: 1.5.em),
+          color: Colors.white,
+          fontWeight: .w800,
+          letterSpacing: 0.2.px,
+        ),
+        css('.brand small').styles(
+          fontSize: 0.8.rem,
+          opacity: 0.8,
+          fontWeight: .w600,
         ),
         css('a', [
           css('&').styles(

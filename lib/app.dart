@@ -3,6 +3,7 @@ import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
 import 'components/header.dart';
+import 'components/footer.dart';
 import 'pages/about.dart';
 import 'pages/home.dart';
 
@@ -24,6 +25,7 @@ class App extends StatelessComponent {
         Route(path: '/', title: 'Home', builder: (context, state) => const Home()),
         Route(path: '/about', title: 'About', builder: (context, state) => const About()),
       ]),
+      const Footer(),
     ]);
   }
 

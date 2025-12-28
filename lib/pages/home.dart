@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 
@@ -20,13 +22,10 @@ class Home extends StatefulComponent {
     css('section', [
       css('&').styles(
         display: .flex,
+        padding: Padding.symmetric(vertical: 3.em, horizontal: 1.5.em),
         flexDirection: .column,
         alignItems: .center,
-        paddingTop: 3.em,
-        paddingBottom: 3.em,
-        paddingLeft: 1.5.em,
-        paddingRight: 1.5.em,
-        gap: 2.5.em,
+        gap: Gap.all(2.5.em),
         textAlign: .center,
       ),
     ]),
@@ -35,30 +34,32 @@ class Home extends StatefulComponent {
         display: .flex,
         flexDirection: .column,
         alignItems: .center,
-        gap: 1.em,
+        gap: Gap.all(1.em),
         maxWidth: 720.px,
       ),
-      css('h1').styles(fontSize: 2.8.rem, letterSpacing: -0.5.px),
+      css('h1').styles(fontSize: 2.8.rem, letterSpacing: 0.5.px),
       css('p').styles(fontSize: 1.15.rem, lineHeight: 1.6.em, color: const Color('#1f2937')),
       css('.cta', [
         css('&').styles(
           display: .flex,
-          gap: 1.em,
+          gap: Gap.all(1.em),
           flexWrap: .wrap,
           justifyContent: .center,
         ),
         css('a').styles(
           display: .inlineFlex,
-          paddingLeft: 1.4.em,
-          paddingRight: 1.4.em,
-          paddingTop: 0.9.em,
-          paddingBottom: 0.9.em,
+          padding: Padding.symmetric(vertical: 0.9.em, horizontal: 1.4.em),
           radius: BorderRadius.circular(10.px),
-          backgroundColor: primaryColor,
+          shadow: BoxShadow(
+            color: Color('#00000018'),
+            blur: Unit.pixels(10),
+            offsetX: Unit.pixels(8),
+            offsetY: Unit.pixels(0),
+          ),
           color: Colors.white,
           fontWeight: .w700,
           textDecoration: TextDecoration(line: .none),
-          boxShadow: const [BoxShadow(color: Color('#00000014'), blurRadius: 10.px, offset: Offset(0, 6))],
+          backgroundColor: primaryColor,
         ),
         css('a:last-child').styles(backgroundColor: const Color('#0f172a'), color: Colors.white),
         css('a:hover').styles(opacity: 0.9),
@@ -66,100 +67,103 @@ class Home extends StatefulComponent {
     ]),
     css('.form-card', [
       css('&').styles(
-        width: 100.percent,
-        maxWidth: 860.px,
         display: .flex,
         flexDirection: .column,
-        gap: 1.em,
-        padding: 1.5.em,
+        gap: Gap.all(1.5.em),
+        padding: Padding.all(1.5.em),
         radius: BorderRadius.circular(14.px),
         backgroundColor: Colors.white,
-        boxShadow: const [BoxShadow(color: Color('#00000012'), blurRadius: 14.px, offset: Offset(0, 10))],
+        shadow: BoxShadow(color: Color('#00000018'), blur: Unit.pixels(10), offsetX: Unit.pixels(8), offsetY: Unit.pixels(0)),
       ),
       css('.form-header').styles(
         display: .flex,
         flexDirection: .column,
-        gap: 0.4.em,
+        gap: Gap.all(0.4.em),
         textAlign: .left,
       ),
-      css('h2').styles(fontSize: 1.5.rem, color: const Color('#0f172a')),
+      css('h2').styles(
+        color: const Color('#0f172a'),
+        fontSize: 1.5.rem,
+      ),
       css('p').styles(color: const Color('#475569')),
       css('form').styles(
         display: .grid,
-        gridTemplateColumns: const [Flex.fit(1.fr), Flex.fit(1.fr)],
-        gap: 1.em,
+        gridTemplate: GridTemplate(columns: [Flex(1)]),
+        gap: Gap.all(1.em),
       ),
-      css('@media (max-width: 780px)', [
-        css('form').styles(gridTemplateColumns: const [Flex.fit(1.fr)]),
-      ]),
       css('label').styles(
+        alignItems: .start,
+        color: const Color('#0f172a'),
         display: .flex,
         flexDirection: .column,
-        gap: 0.35.em,
         fontWeight: .w700,
-        color: const Color('#0f172a'),
         fontSize: 0.95.rem,
+        gap: Gap.all(0.35.em),
       ),
       css('input').styles(
-        paddingLeft: 0.9.em,
-        paddingRight: 0.9.em,
-        paddingTop: 0.85.em,
-        paddingBottom: 0.85.em,
-        radius: BorderRadius.circular(10.px),
-        border: const Border.all(color: Color('#e2e8f0'), width: 1.px),
         backgroundColor: const Color('#f8fafc'),
+        border: const Border.all(color: Color('#e2e8f0'), width: Unit.pixels(1)),
         fontSize: 1.rem,
-        outline: Outline.none,
-      ),
-      css('input:focus').styles(border: const Border.all(color: primaryColor, width: 1.5.px), backgroundColor: Colors.white),
-      css('.submit-btn').styles(
-        gridColumn: GridColumn(span: 2),
-        paddingTop: 0.95.em,
-        paddingBottom: 0.95.em,
-        backgroundColor: primaryColor,
-        color: Colors.white,
-        fontWeight: .w800,
-        border: Border.all(color: primaryColor),
+        outline: Outline.unset,
+        padding: Padding.all(0.9.em),
         radius: BorderRadius.circular(10.px),
+      ),
+      css('input:focus').styles(
+        backgroundColor: Colors.white,
+        border: const Border.all(color: primaryColor, width: Unit.pixels(0.15)),
+      ),
+      css('.submit-btn').styles(
+        backgroundColor: primaryColor,
+        border: Border.all(color: primaryColor),
+        color: Colors.white,
         cursor: .pointer,
-        boxShadow: const [BoxShadow(color: Color('#00000018'), blurRadius: 10.px, offset: Offset(0, 8))],
+        fontWeight: .w800,
+        padding: Padding.symmetric(vertical: 0.95.em),
+        radius: BorderRadius.circular(10.px),
+        shadow: BoxShadow(color: Color('#00000018'), blur: Unit.pixels(10), offsetX: Unit.pixels(8), offsetY: Unit.pixels(0)),
       ),
       css('.submit-btn:hover').styles(opacity: 0.92),
       css('@media (max-width: 780px)', [
-        css('.submit-btn').styles(gridColumn: GridColumn(span: 1)),
+        css('form').styles(
+          gridTemplate: '1fr',
+        ),
       ]),
     ]),
-    css('.pillars', [
-      css('&').styles(
-        display: .grid,
-        gap: 1.2.em,
-        width: 100.percent,
-        maxWidth: 960.px,
-        gridTemplateColumns: const [Flex.fit(1.fr), Flex.fit(1.fr), Flex.fit(1.fr)],
+    css('.pillars').styles(
+      display: .grid,
+      gap: Gap.all(1.2.em),
+      gridTemplate: GridTemplate(columns: [Flex(1), Flex(1), Flex(1)]),
+      maxWidth: 960.px,
+      width: 100.percent,
+    ),
+    css('@media (max-width: 900px)', [
+      css('.pillars').styles(
+        gridTemplate: GridTemplate(columns: [Flex(1)]),
       ),
-      css('@media (max-width: 900px)', [
-        css('.pillars').styles(gridTemplateColumns: const [Flex.fit(1.fr)]),
-      ]),
     ]),
-    css('.pillar', [
-      css('&').styles(
-        padding: 1.4.em,
-        textAlign: .left,
-        radius: BorderRadius.circular(12.px),
-        backgroundColor: const Color('#f8fafc'),
-        boxShadow: const [BoxShadow(color: Color('#0000000d'), blurRadius: 12.px, offset: Offset(0, 6))],
-        display: .flex,
-        flexDirection: .column,
-        gap: 0.5.em,
-      ),
-      css('h3').styles(fontSize: 1.3.rem, color: const Color('#0f172a')),
-      css('p').styles(fontSize: 1.05.rem, lineHeight: 1.6.em, color: const Color('#334155')),
-    ]),
+    css('.pillar').styles(
+      backgroundColor: const Color('#f8fafc'),
+      display: .flex,
+      flexDirection: .column,
+      gap: Gap.all(0.5.em),
+      padding: Padding.all(1.4.em),
+      radius: BorderRadius.circular(12.px),
+      shadow: BoxShadow(color: Color('#00000018'), blur: Unit.pixels(10), offsetX: Unit.pixels(8), offsetY: Unit.pixels(0)),
+      textAlign: .left,
+    ),
+    css('.pillar h3').styles(
+      color: const Color('#0f172a'),
+      fontSize: 1.3.rem,
+    ),
+    css('.pillar p').styles(
+      color: const Color('#334155'),
+      fontSize: 1.05.rem,
+      lineHeight: 1.6.em,
+    ),
   ];
 }
 
 class HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
@@ -181,7 +185,9 @@ class HomeState extends State<Home> {
         img(src: 'images/logo.svg', width: 96, height: 96, alt: 'Skills Ez logo'),
         h1([.text('Build skills with clarity')]),
         p([
-          .text('Skills Ez crafts AI-powered learning plans so you can focus on doing the work, not guessing the path.'),
+          .text(
+            'Skills Ez crafts AI-powered learning plans so you can focus on doing the work, not guessing the path.',
+          ),
         ]),
         div(classes: 'cta', [
           a(href: '/about', [.text('How it works')]),
@@ -256,14 +262,15 @@ Component _pillar(String title, String body) {
 }
 
 Component _field({required String id, required String labelText, String? placeholder}) {
-  return label(forId: id, [
+  return label(id: id, [
     span([.text(labelText)]),
     input(
       id: id,
       name: id,
       type: InputType.text,
-      placeholder: placeholder,
-      required: true,
+      attributes: {
+        if (placeholder != null) 'placeholder': placeholder,
+      },
     ),
   ]);
 }

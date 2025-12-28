@@ -19,14 +19,14 @@ class Footer extends StatelessComponent {
     css('footer', [
       css('&').styles(
         display: .flex,
+        padding: .symmetric(vertical: 1.25.em, horizontal: 1.em),
         justifyContent: .center,
-        padding: EdgeInsets.symmetric(vertical: 1.25.em, horizontal: 1.em),
-        backgroundColor: const Color('#0f172a'),
         color: Colors.white,
+        backgroundColor: const Color('#0f172a'),
       ),
       css('.footer-content').styles(
         display: .flex,
-        gap: 0.8.em,
+        gap: Gap.all(0.8.em),
         fontWeight: .w600,
         letterSpacing: 0.2.px,
         alignItems: .center,

@@ -1,6 +1,8 @@
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 
+import '../constants/theme.dart';
+
 // By using the @client annotation this component will be automatically compiled to javascript and mounted
 // on the client. Therefore:
 // - this file and any imported file must be compilable for both server and client environments.
@@ -43,30 +45,30 @@ class About extends StatelessComponent {
 
   @css
   static List<StyleRule> get styles => [
-    css('section').styles(maxWidth: 760.px, margin: EdgeInsets.symmetric(vertical: 2.em, horizontal: auto)),
+    css('section').styles(maxWidth: 760.px, margin: Margin.symmetric(vertical: 2.em, horizontal: Unit.auto)),
     css('.about-hero', [
       css('&').styles(
         display: .flex,
         flexDirection: .column,
-        gap: 0.75.em,
+        gap: Gap.all(0.75.em),
         textAlign: .center,
       ),
       css('h1').styles(fontSize: 2.4.rem),
       css('p').styles(fontSize: 1.1.rem, lineHeight: 1.6.em),
     ]),
     css('ul').styles(
-      margin: EdgeInsets.only(top: 1.5.em),
-      padding: EdgeInsets.symmetric(horizontal: 0),
-      listStyleType: ListStyleType.none,
+      margin: Margin.only(top: 1.5.em),
+      padding: Padding.symmetric(horizontal: Unit.pixels( 0)),
+      listStyle: ListStyle.none,
       display: .flex,
       flexDirection: .column,
-      gap: 1.em,
+      gap: Gap.all(0.1.em),
     ),
     css('li').styles(
-      padding: EdgeInsets.all(1.em),
+      padding: Padding.all(1.em),
       radius: BorderRadius.circular(8.px),
+      shadow: BoxShadow(color: Color('#00000018'), blur: Unit.pixels(10), offsetX: Unit.pixels(8), offsetY: Unit.pixels(0)),
       backgroundColor: const Color('#f4f6fb'),
-      boxShadow: const [BoxShadow(color: Color('#00000010'), blurRadius: 8.px, spreadRadius: 0.px, offset: Offset(0, 4))],
     ),
     css('strong').styles(color: primaryColor),
   ];

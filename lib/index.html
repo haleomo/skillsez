@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Ez AI-crafted learning plans</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <header>
+            <nav>
+                <div class="brand">
+                    <span>Skills--Ez</span>
+                    <small>AI-crafted learning plans</small>
+                </div>
+                <div><a href="/">Home</a></div>
+                <div><a href="pages/about.html">About</a></div>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero">
+                <img src="assets/images/logo.svg" width="240" height="180" alt="Skills Ez logo">
+                <h1>Build skills with clarity</h1>
+                <p>Skills Ez crafts AI-powered learning plans so you can focus on doing the work, not guessing the path.</p>
+                <div class="cta">
+                    <a href="pages/about.html">How it works</a>
+                    <a href="https://github.com/robnelson/skills-ez" target="_blank">View source</a>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Describe your learning profile</h2>
+                    <p>We will use these details to craft an optimized AI prompt for your plan.</p>
+                </div>
+                <form id="learningForm">
+                    <label for="sourceExpertDiscipline">
+                        <span>Source Expert Discipline</span>
+                        <input type="text" id="sourceExpertDiscipline" name="sourceExpertDiscipline" placeholder="Software Engineering" required>
+                    </label>
+                    <label for="subjectEducationLevel">
+                        <span>Subject Education Level</span>
+                        <input type="text" id="subjectEducationLevel" name="subjectEducationLevel" placeholder="Bachelor's" required>
+                    </label>
+                    <label for="subjectDiscipline">
+                        <span>Subject Discipline</span>
+                        <input type="text" id="subjectDiscipline" name="subjectDiscipline" placeholder="Computer Science" required>
+                    </label>
+                    <label for="subjectWorkExperience">
+                        <span>Subject Work Experience</span>
+                        <input type="text" id="subjectWorkExperience" name="subjectWorkExperience" placeholder="2 years web development" required>
+                    </label>
+                    <label for="subjectExperienceTime">
+                        <span>Subject Experience Time</span>
+                        <input type="text" id="subjectExperienceTime" name="subjectExperienceTime" placeholder="2 years" required>
+                    </label>
+                    <label for="topic">
+                        <span>Topic</span>
+                        <input type="text" id="topic" name="topic" placeholder="Flutter Development" required>
+                    </label>
+                    <label for="goal">
+                        <span>Goal (e.g., work, general knowledge, hire)</span>
+                        <input type="text" id="goal" name="goal" placeholder="work" required>
+                    </label>
+                    <label for="role">
+                        <span>Role (e.g., planner, engineer, coder)</span>
+                        <input type="text" id="role" name="role" placeholder="mobile developer" required>
+                    </label>
+                    <button class="submit-btn" type="submit">Generate learning plan</button>
+                </form>
+            </div>
+
+            <div class="pillars">
+                <div class="pillar">
+                    <h3>Tell us the skill</h3>
+                    <p>Describe what you want to learn—anything from TypeScript to watercolor.</p>
+                </div>
+                <div class="pillar">
+                    <h3>We draft the plan</h3>
+                    <p>Skills Ez builds an optimized AI prompt that generates a sequenced roadmap.</p>
+                </div>
+                <div class="pillar">
+                    <h3>You execute with focus</h3>
+                    <p>Follow milestones, stay accountable, and iterate as you grow.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <span>Skills Ez *** </span>
+                <span>AI-crafted learning plans</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

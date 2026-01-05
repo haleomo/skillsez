@@ -17,6 +17,10 @@
                 </div>
                 <div><a href="/">Home</a></div>
                 <div><a href="pages/about.html">About</a></div>
+                <div><a href="pages/help.html">
+                    <img src="assets/images/icons8-help-48.png" alt="Example Website Icon" style="width:42px;height:42px;">
+                </a>
+                </div>
             </nav>
         </header>
 
@@ -84,7 +88,14 @@
                 <div class="results-header">
                     <h2 id="planTopic"></h2>
                     <p id="planMeta"></p>
-                    <button class="new-plan-btn" onclick="createNewPlan()">Create New Plan</button>
+                    <div class="results-actions">
+                        <button class="action-btn print-btn" onclick="printLearningPlan()">
+                            <span>🖨️</span> Print Plan
+                        </button>
+                        <button class="action-btn new-plan-btn" onclick="createNewPlan()">
+                            <span>➕</span> New Plan
+                        </button>
+                    </div>
                 </div>
                 <div id="planContent" class="plan-content"></div>
             </div>

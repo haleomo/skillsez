@@ -157,14 +157,11 @@ dart run bin/server.dart
 # Server runs on http://localhost:8080
 ```
 
-#### Web Application (JASPR)
-```bash
-# Development mode
-dart run jaspr serve
+#### Web Server (Mac)
+# Development
+$ python3 -m http.server
+Serving HTTP on :: port 8000 (http://[::]:8000/) ...
 
-# Production build
-dart run jaspr build
-```
 
 #### Mobile Application
 ```bash

@@ -362,6 +362,207 @@ footer {
     opacity: 0.75;
 }
 
+custom-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 1px solid transparent;
+}
+
+.alert-title-failure {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: lightgrey;
+    background-color: #f44336;
+}
+
+.alert-title-success {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: lightgrey;
+    background-color: #247a19;
+}
+
+.close-btn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+/* Danger Alert Styles */
+.error-alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* Warning Alert Styles */
+.warning-alert {
+    padding: 20px;
+    background-color: #f4e436; /* Yellow */
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* Success Alert Styles */
+.success-alert {
+    padding: 20px;
+    background-color: #247a19; /* Green */
+    color: white;
+    margin-bottom: 15px;
+}
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75em;
+    color: #fff;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.spinner {
+    width: 64px;
+    height: 64px;
+    border: 6px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+/* Learning Plan Results */
+.learning-plan-results {
+    width: 100%;
+    max-width: 960px;
+    margin: 2em 0;
+}
+
+.results-header {
+    background: linear-gradient(135deg, var(--primary-color), #0277bd);
+    color: #fff;
+    padding: 2em;
+    border-radius: 14px 14px 0 0;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.results-header h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 0.5em;
+}
+
+.results-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin-bottom: 1em;
+}
+
+.new-plan-btn {
+    padding: 0.75em 1.5em;
+    background-color: #fff;
+    color: var(--primary-color);
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.new-plan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.plan-content {
+    background-color: #fff;
+    padding: 1.5em;
+    border-radius: 0 0 14px 14px;
+    box-shadow: var(--shadow-md);
+}
+
+.plan-section {
+    background-color: var(--light-bg);
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.plan-section:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+.plan-section h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 0.75em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.plan-section h3::before {
+    content: '▸';
+    font-size: 1.2em;
+}
+
+.plan-section p, .plan-section ul, .plan-section ol {
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.plan-section ul, .plan-section ol {
+    margin: 0.75em 0;
+    padding-left: 1.5em;
+}
+
+.plan-section li {
+    margin-bottom: 0.5em;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.plan-section strong {
+    color: var(--dark-color);
+    font-weight: 700;
+}
+
+.plan-raw-content {
+    white-space: pre-wrap;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.8;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Responsive Design */
 @media (max-width: 780px) {
     h1 {

@@ -8,13 +8,13 @@ part 'query_profile.g.dart';
 /// This class holds comprehensive information about a query including the source
 /// expert's background, subject details, learning goals, and target role.
 @freezed
-class QueryProfile with _$QueryProfile {
+abstract class QueryProfile with _$QueryProfile {
   const factory QueryProfile({
     /// The discipline or field of expertise of the source expert
     required String sourceExpertDiscipline,
     
     /// The education level of the subject (e.g., "High School", "Bachelor's", "Master's", "PhD")
-    required String subjectEducationLevel,
+    @Default('') String subjectEducationLevel,
     
     /// The primary discipline or field of study for the subject
     required String subjectDiscipline,
@@ -22,20 +22,21 @@ class QueryProfile with _$QueryProfile {
     /// The subject's relevant work experience in years or description
     required String subjectWorkExperience,
     
-    /// The amount of time the subject has been in their experience area
-    required String subjectExperienceTime,
-    
     /// The specific topic or skill to be learned
     required String topic,
     
-    /// The goal for learning this skill (e.g., "work", "general knowledge", "hire")
+    /// The goal for learning this skill (e.g., "career advancement", "general knowledge", "interview preparation")
     required String goal,
     
     /// The target role the subject wants to achieve (e.g., "planner", "engineer", "coder")
-    required String role,
+    @Default('') String role,
   }) = _QueryProfile;
 
   /// Creates a QueryProfile from JSON
   factory QueryProfile.fromJson(Map<String, dynamic> json) =>
       _$QueryProfileFromJson(json);
+
+  /// Creates JSON from a QueryProfile
+  factory QueryProfile.toJson(QueryProfile profile) =>
+      _$QueryProfileFromJson(profile as Map<String, dynamic>);
 }

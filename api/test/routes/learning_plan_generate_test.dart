@@ -58,7 +58,6 @@ void main() {
         subjectEducationLevel: 'Bachelor\'s',
         subjectDiscipline: 'Computer Science',
         subjectWorkExperience: '2 years',
-        subjectExperienceTime: '2 years',
         topic: '', // Empty topic
         goal: 'work',
         role: 'developer',
@@ -84,7 +83,6 @@ void main() {
         subjectEducationLevel: 'Bachelor\'s',
         subjectDiscipline: 'Computer Science',
         subjectWorkExperience: '2 years',
-        subjectExperienceTime: '2 years',
         topic: 'Flutter Development',
         goal: 'work',
         role: 'mobile developer',

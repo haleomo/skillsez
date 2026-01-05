@@ -5,10 +5,12 @@ import 'package:shared/shared.dart';
 
 /// Service for generating learning plans using Google Gemini AI
 class LearningPlanService {
-  static const String _baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+  static const String _baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-latest:generateContent';
   
   /// Generates a comprehensive learning plan based on the provided QueryProfile
-  Future<Map<String, dynamic>> generateLearningPlan(QueryProfile queryProfile) async {
+  Future<Map<String, dynamic>> generateLearningPlan(QueryProfile queryProfile) 
+    async {
+    // Try to get API key from environment variable (set by server.dart or system)
     final apiKey = Platform.environment['GEMINI_API_KEY'];
     if (apiKey == null || apiKey.isEmpty) {
       throw Exception('GEMINI_API_KEY environment variable is not set');
@@ -53,7 +55,9 @@ class LearningPlanService {
         // Parse the generated content into a structured format
         return _parseGeneratedContent(content, queryProfile);
       } else {
-        throw Exception('Gemini API error: ${response.statusCode} - ${response.body}');
+        // Include more details about the error
+        final errorBody = response.body;
+        throw Exception('Gemini API error: ${response.statusCode} - $errorBody');
       }
     } catch (e) {
       throw Exception('Failed to generate learning plan: $e');
@@ -71,7 +75,6 @@ Please create a comprehensive, personalized learning plan for the following prof
 - Education Level: ${queryProfile.subjectEducationLevel}
 - Background Discipline: ${queryProfile.subjectDiscipline}
 - Work Experience: ${queryProfile.subjectWorkExperience}
-- Experience Duration: ${queryProfile.subjectExperienceTime}
 - Target Topic: ${queryProfile.topic}
 - Learning Goal: ${queryProfile.goal}
 - Desired Role: ${queryProfile.role}
@@ -112,7 +115,7 @@ Please provide a detailed, actionable plan that bridges the gap between their cu
       'content': content,
       'status': 'generated',
       'metadata': {
-        'model': 'gemini-1.5-flash-latest',
+        'model': 'gemini-pro-latest',
         'source_expert_discipline': queryProfile.sourceExpertDiscipline,
         'subject_education_level': queryProfile.subjectEducationLevel,
         'subject_discipline': queryProfile.subjectDiscipline,

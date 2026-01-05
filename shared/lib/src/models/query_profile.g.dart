@@ -6,25 +6,23 @@ part of 'query_profile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QueryProfileImpl _$$QueryProfileImplFromJson(Map<String, dynamic> json) =>
-    _$QueryProfileImpl(
+_QueryProfile _$QueryProfileFromJson(Map<String, dynamic> json) =>
+    _QueryProfile(
       sourceExpertDiscipline: json['sourceExpertDiscipline'] as String,
-      subjectEducationLevel: json['subjectEducationLevel'] as String,
+      subjectEducationLevel: json['subjectEducationLevel'] as String? ?? '',
       subjectDiscipline: json['subjectDiscipline'] as String,
       subjectWorkExperience: json['subjectWorkExperience'] as String,
-      subjectExperienceTime: json['subjectExperienceTime'] as String,
       topic: json['topic'] as String,
       goal: json['goal'] as String,
-      role: json['role'] as String,
+      role: json['role'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$QueryProfileImplToJson(_$QueryProfileImpl instance) =>
+Map<String, dynamic> _$QueryProfileToJson(_QueryProfile instance) =>
     <String, dynamic>{
       'sourceExpertDiscipline': instance.sourceExpertDiscipline,
       'subjectEducationLevel': instance.subjectEducationLevel,
       'subjectDiscipline': instance.subjectDiscipline,
       'subjectWorkExperience': instance.subjectWorkExperience,
-      'subjectExperienceTime': instance.subjectExperienceTime,
       'topic': instance.topic,
       'goal': instance.goal,
       'role': instance.role,

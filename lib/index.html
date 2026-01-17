@@ -31,7 +31,6 @@
                 <p>Skills Ez crafts AI-powered learning plans so you can focus on doing the work, not guessing the path.</p>
                 <div class="cta">
                     <a href="pages/about.html">How it works</a>
-                    <a href="https://github.com/robnelson/skills-ez" target="_blank">View source</a>
                 </div>
             </div>
 
@@ -129,8 +128,46 @@
         <p>Generating your learning plan...</p>
     </div>
 
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Welcome to Skills Ez!</h2>
+            <p>Register to save your learning plans and track your progress.</p>
+            <form id="registrationForm">
+                <label for="userEmail">
+                    <span>Email Address</span>
+                    <input type="email" id="userEmail" name="email" placeholder="your@email.com" required>
+                </label>
+                <label for="userLastName">
+                    <span>Last Name</span>
+                    <input type="text" id="userLastName" name="lastName" placeholder="Smith" required>
+                </label>
+                <div class="modal-actions">
+                    <button type="button" class="btn-decline" id="declineBtn">Decline</button>
+                    <button type="submit" class="btn-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Debug: Manual trigger button (remove in production) 
+    <button id="debugShowRegistration" style="position: fixed; bottom: 10px; right: 10px; z-index: 3000; padding: 10px; background: #01589B; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Show Registration
+    </button>
+    -->
 
     <script src="main.js"></script>
+    <script>
+        // Debug button handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const debugBtn = document.getElementById('debugShowRegistration');
+            if (debugBtn) {
+                debugBtn.addEventListener('click', function() {
+                    console.log('Debug button clicked');
+                    showRegistrationModal();
+                });
+            }
+        });
+    </script>
 </body>
 </html>

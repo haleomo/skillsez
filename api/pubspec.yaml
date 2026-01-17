@@ -12,6 +12,7 @@ dependencies:
     path: ../shared
   http: ^1.2.1
   dotenv: ^4.0.1
+  mysql1: ^0.20.0
 
 dev_dependencies:
   build_runner: ^2.10.4

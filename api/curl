@@ -1,0 +1,10 @@
+curl -X POST \
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDuohOTzJuEjwwFa4LV-6H5lQRORAcbCEs" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "contents": [{
+      "parts": [{
+        "text": "Hello, world!"
+      }]
+    }]
+  }'

@@ -111,6 +111,7 @@ skills-ez/
 - Dart SDK (latest stable)
 - Flutter SDK (latest stable)
 - Google Gemini API key
+- MySQL (optional, for database features)
 
 ### Installation
 
@@ -147,6 +148,14 @@ skills-ez/
    JWT_SECRET=your_jwt_secret
    ```
 
+### Database Setup (MySQL)
+
+#### Install MySQL with Homebrew (macOS)
+
+1. **Install MySQL**
+   ```bash
+   brew install mysql
+
 ### Running the Applications
 
 #### API Server
@@ -159,9 +168,41 @@ dart run bin/server.dart
 
 #### Web Server (Mac)
 # Development
+$ cd lib (run this in the lib directory so the paths are all correct.)
 $ python3 -m http.server
 Serving HTTP on :: port 8000 (http://[::]:8000/) ...
 
+#### MySQL Database Setup
+# Launch MySQL as a background service (persists across restarts)
+install mysql on macos brew
+
+brew services start mysql
+
+# Check service status
+brew services list
+
+# Start MySQL in the foreground
+mysql.server start
+
+# Stop MySQL when done
+mysql.server stop
+
+# Run mysql_secure_installation
+## Follow the prompts in the terminal to:
+### Set a password for the root user.
+### Remove anonymous users.
+### Disallow remote root login.
+### Remove the test database.
+### Reload privilege tables. 
+
+Connect to MySQL
+mysql -u root (rob4MySQL77)
+
+After securing the installation, you can connect to the MySQL server using the following command and entering the password you just set: 
+mysql -u root -p
+
+# Stop MySQL
+brew services stop mysql
 
 #### Mobile Application
 ```bash
@@ -221,6 +262,43 @@ final plan = await client.generateSkillPlan(
   timeCommitment: '10 hours/week',
 );
 ```
+
+## Adding Query and Result Save Routes to API
+
+Prompt: Create a route in the API to save the query profile, query results, and user into the database. Also provide routes to retrieve the user, query profile, and query results. Also, provide routes to retrive a list of user-query, and user-query-results using the views. The tables and views are defined in the file: /Users/robnelson/projects/flutter_project/skills-ez/sql/create-tables.sql
+
+Now I'll create the API with database support. I'll:
+
+  Update pubspec.yaml to include MySQL/database package
+  Create a database service
+  Create routes for user, query_profile, and query_result CRUD operations
+  Create routes for retrieving from views
+
+Now I'll create a database service:
+
+Created database_service.dart
+
+Now I'll create models for the database operations. First, let me extend the shared package with database models:
+
+Read query_profile.dart, lines 1 to 40
+
+Now I'll create additional models for database records. First, let me create a User model:
+
+Now update the shared package's main export file:
+
+Edited
+shared.dart+5-0
+Now let me generate the Freezed files. First, let me check the pubspec.yaml for shared:
+
+Read pubspec.yaml
+
+Good, the dependencies are there. Now let me run the build_runner:
+
+cd /Users/robnelson/projects/flutter_project/skills-ez/shared && dart run build_runner build --delete-conflicting-outputs
+
+## Required Tables
+mysql -u root -p -e "DROP DATABASE IF EXISTS skills_ez; CREATE DATABASE skills_ez;"
+mysql -u root -p skills_ez --database=skills_ez < sql/create-tables.sql
 
 ## Contributing
 

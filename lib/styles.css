@@ -492,6 +492,120 @@ custom-alert {
     animation: spin 0.9s linear infinite;
 }
 
+/* Registration Modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2.5em;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 480px;
+    width: 90%;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5em;
+    text-align: center;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25em;
+}
+
+.modal-content label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.modal-content label span {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.modal-content input {
+    padding: 0.75em 1em;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 0.85em 1.5em;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-decline {
+    background: #e2e8f0;
+    color: var(--text-secondary);
+}
+
+.btn-decline:hover {
+    background: #cbd5e1;
+}
+
+.btn-save {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.btn-save:hover {
+    background: #014a7a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(1, 88, 155, 0.3);
+}
+
 /* Learning Plan Results */
 .learning-plan-results {
     width: 100%;

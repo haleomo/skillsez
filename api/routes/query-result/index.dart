@@ -60,19 +60,17 @@ Future<Response> onRequest(RequestContext context) async {
     final db = DatabaseService();
     final result = await db.connection.query(
       '''INSERT INTO query_result 
-         (query_result_nickname, query_id, result_text, result_date) 
-         VALUES (?, ?, ?, NOW())
-         ON DUPLICATE KEY UPDATE 
-         result_text = VALUES(result_text),
-         result_date = NOW(),
-         id = LAST_INSERT_ID(id)''',
+        (query_result_nickname, query_id, result_text, result_date) 
+        VALUES (?, ?, ?, NOW())
+        ON DUPLICATE KEY UPDATE 
+        result_text = VALUES(result_text),
+        result_date = NOW(),
+        id = LAST_INSERT_ID(id)''',
       [queryResultNickname, queryProfileId, resultText],
     );
 
     final resultId = result.insertId;
-
-    final resultId = result.insertId;
-
+    
     return Response(
       statusCode: 201,
       headers: {

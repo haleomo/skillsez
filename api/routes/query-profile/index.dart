@@ -1,7 +1,6 @@
 import 'dart:convert';
+import 'package:api/database_service.dart';
 import 'package:dart_frog/dart_frog.dart';
-import 'package:shared/shared.dart';
-import '../../lib/database_service.dart';
 
 /// POST /query-profile
 /// Creates a new query profile in the database
@@ -57,16 +56,16 @@ Future<Response> onRequest(RequestContext context) async {
     final db = DatabaseService();
     final result = await db.connection.query(
       '''INSERT INTO query_profile 
-         (user_id, query_date, query_text, source_discipline, subjecteducation_level, 
+          (user_id, query_date, query_text, source_discipline, subjecteducation_level, 
           subject_discipline, topic, goal, role) 
-         VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE 
-         query_date = NOW(),
-         query_text = VALUES(query_text),
-         subjecteducation_level = VALUES(subjecteducation_level),
-         id = LAST_INSERT_ID(id)''',
+          VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)
+          ON DUPLICATE KEY UPDATE 
+          query_date = NOW(),
+          query_text = VALUES(query_text),
+          subjecteducation_level = VALUES(subjecteducation_level),
+          id = LAST_INSERT_ID(id)''',
       [userId, queryText ?? '', sourceDiscipline ?? '', subjectEducationLevel ?? '', 
-       subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
+      subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
     );
 
     final queryId = result.insertId;

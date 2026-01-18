@@ -3,9 +3,18 @@ import 'package:dart_frog/dart_frog.dart';
 import 'package:shared/shared.dart';
 import '../../lib/database_service.dart';
 
-/// POST /query-profile/create
+/// POST /query-profile
 /// Creates a new query profile in the database
 Future<Response> onRequest(RequestContext context) async {
+  // Handle CORS preflight requests
+  if (context.request.method == HttpMethod.options) {
+    return Response(
+      statusCode: 200,
+      headers: _corsHeaders(),
+    );
+  }
+  
+  // Only allow POST requests
   if (context.request.method != HttpMethod.post) {
     return Response(
       statusCode: 405,
@@ -44,13 +53,18 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
-    // Insert query profile into database
+    // Insert or update query profile in database
     final db = DatabaseService();
     final result = await db.connection.query(
       '''INSERT INTO query_profile 
          (user_id, query_date, query_text, source_discipline, subjecteducation_level, 
           subject_discipline, topic, goal, role) 
-         VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)''',
+         VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE 
+         query_date = NOW(),
+         query_text = VALUES(query_text),
+         subjecteducation_level = VALUES(subjecteducation_level),
+         id = LAST_INSERT_ID(id)''',
       [userId, queryText ?? '', sourceDiscipline ?? '', subjectEducationLevel ?? '', 
        subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
     );

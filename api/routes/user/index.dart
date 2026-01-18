@@ -59,15 +59,19 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
-    // Insert user into database
+    // Insert or update user in database
     print('[User Route] Getting database service...');
     final db = DatabaseService();
     print('[User Route] Executing query...');
     final result = await db.connection.query(
-      'INSERT INTO skillsez_user (email, last_name, created_at) VALUES (?, ?, NOW())',
+      '''INSERT INTO skillsez_user (email, last_name, created_at) 
+         VALUES (?, ?, NOW())
+         ON DUPLICATE KEY UPDATE 
+         last_name = VALUES(last_name),
+         id = LAST_INSERT_ID(id)''',
       [email, lastName],
     );
-    print('[User Route] Query executed, insert ID: ${result.insertId}');
+    print('[User Route] Query executed, insert/update ID: ${result.insertId}');
 
     final userId = result.insertId;
 

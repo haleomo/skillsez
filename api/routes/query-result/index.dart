@@ -3,9 +3,18 @@ import 'package:dart_frog/dart_frog.dart';
 import 'package:shared/shared.dart';
 import '../../lib/database_service.dart';
 
-/// POST /query-result/create
+/// POST /query-result
 /// Creates a new query result (learning plan) in the database
 Future<Response> onRequest(RequestContext context) async {
+  // Handle CORS preflight requests
+  if (context.request.method == HttpMethod.options) {
+    return Response(
+      statusCode: 200,
+      headers: _corsHeaders(),
+    );
+  }
+  
+  // Only allow POST requests
   if (context.request.method != HttpMethod.post) {
     return Response(
       statusCode: 405,
@@ -20,7 +29,7 @@ Future<Response> onRequest(RequestContext context) async {
     
     // Validate required fields
     final queryResultNickname = requestData['queryResultNickname'] as String?;
-    final queryId = requestData['queryId'] as int?;
+    final queryProfileId = requestData['queryProfileId'] as int?;
     final resultText = requestData['resultText'] as String?;
     
     if (queryResultNickname == null || queryResultNickname.trim().isEmpty) {
@@ -31,11 +40,11 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
     
-    if (queryId == null) {
+    if (queryProfileId == null) {
       return Response(
         statusCode: 400,
         headers: _corsHeaders(),
-        body: jsonEncode({'error': 'Query ID is required'}),
+        body: jsonEncode({'error': 'Query Profile ID is required'}),
       );
     }
     
@@ -47,14 +56,20 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
-    // Insert query result into database
+    // Insert or update query result in database
     final db = DatabaseService();
     final result = await db.connection.query(
       '''INSERT INTO query_result 
          (query_result_nickname, query_id, result_text, result_date) 
-         VALUES (?, ?, ?, NOW())''',
-      [queryResultNickname, queryId, resultText],
+         VALUES (?, ?, ?, NOW())
+         ON DUPLICATE KEY UPDATE 
+         result_text = VALUES(result_text),
+         result_date = NOW(),
+         id = LAST_INSERT_ID(id)''',
+      [queryResultNickname, queryProfileId, resultText],
     );
+
+    final resultId = result.insertId;
 
     final resultId = result.insertId;
 
@@ -68,7 +83,7 @@ Future<Response> onRequest(RequestContext context) async {
         'success': true,
         'data': {
           'id': resultId,
-          'queryId': queryId,
+          'queryProfileId': queryProfileId,
           'nickname': queryResultNickname,
         }
       }),

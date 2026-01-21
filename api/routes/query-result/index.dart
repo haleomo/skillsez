@@ -1,11 +1,17 @@
 import 'dart:convert';
+
 import 'package:dart_frog/dart_frog.dart';
+import 'package:mysql_client_plus/mysql_client_plus.dart';
 import 'package:shared/shared.dart';
+
 import '../../lib/database_service.dart';
 
 /// POST /query-result
 /// Creates a new query result (learning plan) in the database
 Future<Response> onRequest(RequestContext context) async {
+  
+  late final ResultSet result;
+
   // Handle CORS preflight requests
   if (context.request.method == HttpMethod.options) {
     return Response(
@@ -27,6 +33,7 @@ Future<Response> onRequest(RequestContext context) async {
     final body = await context.request.body();
     final Map<String, dynamic> requestData = jsonDecode(body) as Map<String, dynamic>;
     
+    print('*** Query Results: Received request data: $requestData');
     // Validate required fields
     final queryResultNickname = requestData['queryResultNickname'] as String?;
     final queryProfileId = requestData['queryProfileId'] as int?;
@@ -56,20 +63,35 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
-    // Insert or update query result in database
+    // Ensure database is initialized
     final db = DatabaseService();
-    final result = await db.connection.query(
-      '''INSERT INTO query_result 
-        (query_result_nickname, query_id, result_text, result_date) 
-        VALUES (?, ?, ?, NOW())
-        ON DUPLICATE KEY UPDATE 
-        result_text = VALUES(result_text),
-        result_date = NOW(),
-        id = LAST_INSERT_ID(id)''',
-      [queryResultNickname, queryProfileId, resultText],
-    );
+    await db.initialize();
 
-    final resultId = result.insertId;
+    try{
+      print('Inserting query result in database');
+      // Insert query result in database
+      result = await db.query(
+        '''INSERT INTO query_result 
+        (query_result_nickname, query_id, result_text) 
+        VALUES (?, ?, ?)''',
+        [queryResultNickname, queryProfileId, resultText],
+      );
+
+      print('Query result inserted successfully');
+
+    } catch (e) {
+      print('Error initializing database (Query Result): $e');
+      return Response(
+        statusCode: 500,
+        headers: _corsHeaders(),
+        body: jsonEncode({'error': 'Failed to initialize database (Query Result): ${e.toString()}'}),
+      );
+    }
+    
+    print('Fetching insert ID for query result');
+
+    final resultId = result.length;
+    print('Insert ID for query result: $resultId');
     
     return Response(
       statusCode: 201,
@@ -98,7 +120,7 @@ Future<Response> onRequest(RequestContext context) async {
     return Response(
       statusCode: 500,
       headers: _corsHeaders(),
-      body: jsonEncode({'error': 'Internal server error: ${e.toString()}'}),
+      body: jsonEncode({'error': 'Internal server error (Query Result): ${e.toString()}'}),
     );
   }
 }

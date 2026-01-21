@@ -5,7 +5,7 @@ import 'package:mysql1/mysql1.dart';
 /// Service for managing database connections and queries
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
-  MySqlConnection? _connection;
+  ConnectionSettings? _settings;
   bool _isInitialized = false;
   
   factory DatabaseService() {
@@ -14,11 +14,11 @@ class DatabaseService {
   
   DatabaseService._internal();
   
-  /// Initialize database connection
+  /// Initialize database connection settings
   Future<void> initialize() async {
-    print('[DatabaseService] Initialize called, _isInitialized=$_isInitialized, _connection=$_connection');
+    print('[DatabaseService] Initialize called, _isInitialized=$_isInitialized');
     
-    if (_isInitialized && _connection != null) {
+    if (_isInitialized && _settings != null) {
       // Already initialized
       print('[DatabaseService] Already initialized, returning');
       return;
@@ -49,44 +49,43 @@ class DatabaseService {
       
       dbPort ??= 3306;
       
-      print('[DatabaseService] Connecting to MySQL at $dbHost:$dbPort/$dbName as $dbUser...');
+      print('[DatabaseService] Storing connection settings for $dbHost:$dbPort/$dbName as $dbUser...');
       
-      _connection = await MySqlConnection.connect(
-        ConnectionSettings(
-          host: dbHost,
-          port: dbPort,
-          user: dbUser,
-          password: dbPassword,
-          db: dbName,
-        ),
+      _settings = ConnectionSettings(
+        host: dbHost,
+        port: dbPort,
+        user: dbUser,
+        password: dbPassword,
+        db: dbName,
       );
       
       _isInitialized = true;
-      print('Database connected successfully');
+      print('Database settings configured successfully');
     } catch (e) {
-      print('Database connection failed: $e');
+      print('Database configuration failed: $e');
       rethrow;
     }
   }
-  
-  /// Get the active connection
-  MySqlConnection get connection {
-    if (_connection == null) {
+
+  /// Executes a query using a fresh connection (opens and closes per query)
+  Future<Results> query(String sql, [List<Object?>? params]) async {
+    if (_settings == null) {
       throw Exception('Database not initialized. Call initialize() first.');
     }
-    return _connection!;
+    
+    MySqlConnection? conn;
+    try {
+      conn = await MySqlConnection.connect(_settings!);
+      return await conn.query(sql, params ?? const []);
+    } finally {
+      await conn?.close();
+    }
   }
   
-  /// Close the database connection
+  /// Close method (clears settings)
   Future<void> close() async {
-    try {
-      if (_connection != null) {
-        await _connection!.close();
-        _isInitialized = false;
-        print('Database connection closed');
-      }
-    } catch (e) {
-      print('Error closing database connection: $e');
-    }
+    _isInitialized = false;
+    _settings = null;
+    print('Database settings cleared');
   }
 }

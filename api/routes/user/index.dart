@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:shared/shared.dart';
 import '../../lib/database_service.dart';
+import 'package:mysql_client_plus/mysql_client_plus.dart';
 
 /// POST /user
 /// Creates a new user in the database
 Future<Response> onRequest(RequestContext context) async {
   print('[User Route] Request received: ${context.request.method}');
+
+  late final Future<ResultSet> result;
   
   // Handle CORS preflight requests
   if (context.request.method == HttpMethod.options) {
@@ -62,18 +65,28 @@ Future<Response> onRequest(RequestContext context) async {
     // Insert or update user in database
     print('[User Route] Getting database service...');
     final db = DatabaseService();
+    print('[User Route] Initializing database...');
+    await db.initialize();
     print('[User Route] Executing query...');
-    final result = await db.connection.query(
+    try {
+    result = db.query(
       '''INSERT INTO skillsez_user (email, last_name, created_at) 
-         VALUES (?, ?, NOW())
-         ON DUPLICATE KEY UPDATE 
-         last_name = VALUES(last_name),
-         id = LAST_INSERT_ID(id)''',
+        VALUES (?, ?, NOW())
+        ON DUPLICATE KEY UPDATE 
+        last_name = VALUES(last_name),
+        id = LAST_INSERT_ID(id)''',
       [email, lastName],
     );
-    print('[User Route] Query executed, insert/update ID: ${result.insertId}');
-
-    final userId = result.insertId;
+    } catch (e) {
+      print('[User Route] Error executing query: $e');
+      return Response(
+        statusCode: 500,
+        headers: _corsHeaders(),
+        body: jsonEncode({'error': 'Failed to insert/update user: ${e.toString()}'}),
+      );
+    }
+    print('[User Route] Query executed, insert/update successful');
+    
 
     print('[User Route] Returning success response');
     return Response(
@@ -85,7 +98,7 @@ Future<Response> onRequest(RequestContext context) async {
       body: jsonEncode({
         'success': true,
         'data': {
-          'id': userId,
+          'id': (await result).length,
           'email': email,
           'lastName': lastName,
         }

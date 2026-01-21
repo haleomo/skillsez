@@ -18,7 +18,7 @@ Future<Response> onRequest(RequestContext context, String id) async {
     final resultId = int.parse(id);
     
     final db = DatabaseService();
-    final results = await db.connection.query(
+    final results = await db.query(
       '''SELECT id, query_result_nickname, query_id, result_text, result_date 
          FROM query_result WHERE id = ?''',
       [resultId],

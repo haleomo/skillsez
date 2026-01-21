@@ -18,7 +18,7 @@ Future<Response> onRequest(RequestContext context, String userId) async {
     final userIdInt = int.parse(userId);
     
     final db = DatabaseService();
-    final results = await db.connection.query(
+    final results = await db.query(
       '''SELECT id, user_id, query_date, query_text, source_discipline, 
         subjecteducation_level, subject_discipline, topic, goal, role 
         FROM query_profile WHERE user_id = ? ORDER BY query_date DESC''',

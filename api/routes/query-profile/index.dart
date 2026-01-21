@@ -1,10 +1,24 @@
 import 'dart:convert';
 import 'package:api/database_service.dart';
 import 'package:dart_frog/dart_frog.dart';
+import 'package:mysql_client_plus/mysql_client_plus.dart';
 
 /// POST /query-profile
 /// Creates a new query profile in the database
 Future<Response> onRequest(RequestContext context) async {
+  int? userId;
+  String? queryText; // Optional
+  String? sourceDiscipline; 
+  String? subjectEducationLevel;
+  String? subjectDiscipline;
+  String? subjectWorkExperience;
+  String? topic;
+  String? goal;
+  String? role;
+
+  late final Future<ResultSet> result;
+
+
   // Handle CORS preflight requests
   if (context.request.method == HttpMethod.options) {
     return Response(
@@ -26,15 +40,23 @@ Future<Response> onRequest(RequestContext context) async {
     final body = await context.request.body();
     final Map<String, dynamic> requestData = jsonDecode(body) as Map<String, dynamic>;
     
-    // Validate required fields
-    final userId = requestData['userId'] as int?;
-    final queryText = requestData['queryText'] as String?;
-    final sourceDiscipline = requestData['sourceDiscipline'] as String?;
-    final subjectEducationLevel = requestData['subjectEducationLevel'] as String?;
-    final subjectDiscipline = requestData['subjectDiscipline'] as String?;
-    final topic = requestData['topic'] as String?;
-    final goal = requestData['goal'] as String?;
-    final role = requestData['role'] as String?;
+    print('*** Query Profile Request data: $requestData ');
+    
+    try {
+      // Validate required fields
+      userId = requestData['userId'] as int?;
+      queryText = requestData['queryText'] as String? ?? ''; // Optional
+      sourceDiscipline = requestData['sourceExpertDiscipline'] as String?; 
+      subjectEducationLevel = requestData['subjectEducationLevel'] as String?;
+      subjectDiscipline = requestData['subjectDiscipline'] as String?;
+      subjectWorkExperience = requestData['subjectWorkExperience'] as String?;
+      topic = requestData['topic'] as String?;
+      goal = requestData['goal'] as String?;
+      role = requestData['role'] as String?;
+    } catch (e) {
+      print('Error parsing request data (Query Profile): $e');
+      throw Exception('Error parsing request data: $e');
+    }
     
     if (userId == null) {
       return Response(
@@ -52,23 +74,33 @@ Future<Response> onRequest(RequestContext context) async {
       );
     }
 
-    // Insert or update query profile in database
+    // Ensure database is initialized
     final db = DatabaseService();
-    final result = await db.connection.query(
-      '''INSERT INTO query_profile 
-          (user_id, query_date, query_text, source_discipline, subjecteducation_level, 
-          subject_discipline, topic, goal, role) 
-          VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)
-          ON DUPLICATE KEY UPDATE 
-          query_date = NOW(),
-          query_text = VALUES(query_text),
-          subjecteducation_level = VALUES(subjecteducation_level),
-          id = LAST_INSERT_ID(id)''',
-      [userId, queryText ?? '', sourceDiscipline ?? '', subjectEducationLevel ?? '', 
-      subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
-    );
+    await db.initialize();
+    
+    // Insert query profile in database
+    try {
+        result = db.query(
+          '''
+          INSERT INTO query_profile 
+          (user_id, query_text, source_discipline, subject_education_level, 
+          subject_work_experience, subject_discipline, topic, goal, role) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+          [userId, queryText ?? '', sourceDiscipline ?? '', subjectEducationLevel ?? '', 
+          subjectWorkExperience ?? '', subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
+        );
+      } catch (e) { 
+        print('Error inserting/updating query profile: $e');
+        return Response(
+          statusCode: 500,
+          headers: _corsHeaders(),
+          body: jsonEncode({'error': 'Failed to insert/update (Query Profile): ${e.toString()}'}),
+        );
+      }
 
-    final queryId = result.insertId;
+    print('Inserted/updated query profile');
+    final queryId = (await result).length;
+    print('Query Profile ID: $queryId');
 
     return Response(
       statusCode: 201,
@@ -79,13 +111,14 @@ Future<Response> onRequest(RequestContext context) async {
       body: jsonEncode({
         'success': true,
         'data': {
-          'id': queryId,
+          'id': 0,
           'userId': userId,
           'topic': topic,
         }
       }),
     );
   } catch (e) {
+    print('Error processing request (Query Profile): $e');
     if (e is FormatException) {
       return Response(
         statusCode: 400,
@@ -97,7 +130,7 @@ Future<Response> onRequest(RequestContext context) async {
     return Response(
       statusCode: 500,
       headers: _corsHeaders(),
-      body: jsonEncode({'error': 'Internal server error: ${e.toString()}'}),
+      body: jsonEncode({'error': 'Internal server error (Query Profile): ${e.toString()}'}),
     );
   }
 }

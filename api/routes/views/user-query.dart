@@ -16,7 +16,7 @@ Future<Response> onRequest(RequestContext context) async {
 
   try {
     final db = DatabaseService();
-    final results = await db.connection.query(
+    final results = await db.query(
       '''SELECT user_id, email, last_name, created_at, query_id, query_date, 
                query_text, source_discipline, subjecteducation_level, 
                subject_discipline, topic, goal, role 

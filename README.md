@@ -144,9 +144,28 @@ skills-ez/
    ```bash
    # Create .env file in api/
    GEMINI_API_KEY=your_api_key_here
-   DATABASE_URL=your_database_url
-   JWT_SECRET=your_jwt_secret
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_USER=root
+   DB_PASSWORD=your_password
+   DB_NAME=skills_ez
    ```
+
+4. **Web Application - Configure Environment**
+   
+   Edit `lib/index.html` and set the `window.ENVIRONMENT` variable:
+   ```html
+   <script>
+       // Set to 'dev' for development, 'prod' for production
+       window.ENVIRONMENT = 'dev';
+   </script>
+   ```
+   
+   **Environment Configuration:**
+   - **dev**: API runs at `http://localhost:8080` (local development)
+   - **prod**: API runs at `http://192.168.102.194:8081` (production server)
+   
+   The web application automatically uses the correct API endpoint based on this setting.
 
 ### Database Setup (MySQL)
 
@@ -203,6 +222,57 @@ mysql -u root -p
 
 # Stop MySQL
 brew services stop mysql
+
+#### Database Schema
+
+The application uses three main tables with UNIQUE constraints to manage duplicate prevention:
+
+1. **skillsez_user** - Stores user registration information
+   - `id`: Primary key (auto-increment)
+   - `email`: User's email (UNIQUE constraint)
+   - `last_name`: User's last name
+   - `created_at`: Registration date
+   - **UNIQUE KEY**: `UNI_USER_EMAIL` on `email`
+
+2. **query_profile** - Stores learning plan queries
+   - `id`: Primary key (auto-increment)
+   - `user_id`: Foreign key referencing skillsez_user
+   - `query_date`: Date of the query
+   - `query_text`: Original query text
+   - `source_discipline`, `subjecteducation_level`, `subject_discipline`: User background
+   - `topic`: Subject to learn
+   - `goal`: Learning goal
+   - `role`: Target role
+   - **UNIQUE KEY**: `UNI_QUERY_PROFILE` on `(user_id, source_discipline, subject_discipline, topic, goal, role)`
+
+3. **query_result** - Stores generated learning plans
+   - `id`: Primary key (auto-increment)
+   - `query_result_nickname`: User-defined name for the plan
+   - `query_id`: Foreign key referencing query_profile
+   - `result_text`: The generated learning plan content
+   - `result_date`: Date the plan was generated
+   - **UNIQUE KEY**: `UNI_QUERY_RESULT` on `(query_id, query_result_nickname)`
+
+4. **user_query_view** - View combining user and query information
+5. **user_query_result_view** - View combining user, query, and result information
+
+**INSERT ... ON DUPLICATE KEY UPDATE**
+
+All three tables support upsert operations. When inserting duplicate records (based on UNIQUE constraints), the database will automatically UPDATE the existing row instead of raising an error:
+
+- Duplicate user email: Updates `last_name`
+- Duplicate query profile: Updates `query_date` and `query_text`
+- Duplicate query result: Updates `result_text` and `result_date`
+
+This enables safe "Save Plan" operations even if the user clicks multiple times.
+
+#### Initialize Database
+
+Create the database and tables:
+```bash
+mysql -u root -p -e "DROP DATABASE IF EXISTS skills_ez; CREATE DATABASE skills_ez;"
+mysql -u root -p skills_ez < sql/create-tables.sql
+```
 
 #### Mobile Application
 ```bash

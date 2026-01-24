@@ -71,7 +71,13 @@ Future<Response> onRequest(RequestContext context) async {
       final userId = await db.insert(
         '''
           INSERT INTO skillsez_user (email, last_name, created_at) 
-          VALUES (?, ?, NOW())''',
+          VALUES (?, ?, NOW())
+          ON DUPLICATE KEY UPDATE
+          id = LAST_INSERT_ID(id),
+          email = VALUES(email),
+          last_name = VALUES(last_name), 
+          created_at = NOW()
+          ''',
         [email, lastName],
       );
       print('[User Route] Query executed, $userId');

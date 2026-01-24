@@ -20,14 +20,14 @@ Future<Response> onRequest(RequestContext context) async {
       '''SELECT email, last_name, query_result_nickname, result_text, result_date 
          FROM user_query_result_view ORDER BY result_date DESC''',
     );
-
-    final userQueryResults = results.map((row) {
+    
+    final userQueryResults = results.rows.map((row) {
       return UserQueryResultView(
-        email: row['email'] as String,
-        lastName: row['last_name'] as String,
-        queryResultNickname: row['query_result_nickname'] as String,
-        resultText: row['result_text'] as String,
-        resultDate: row['result_date'] as DateTime?,
+        email: (row.colByName('email'))?.toString() ?? '',
+        lastName: (row.colByName('last_name'))?.toString() ?? '',
+        queryResultNickname: (row.colByName('query_result_nickname'))?.toString() ?? '',
+        resultText: (row.colByName('result_text'))?.toString() ?? '',
+        resultDate: DateTime.tryParse((row.colByName('result_date'))?.toString() ?? ''),
       );
     }).toList();
 

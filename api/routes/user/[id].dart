@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'package:api/database_service.dart';
 import 'package:dart_frog/dart_frog.dart';
 import 'package:shared/shared.dart';
-import '../../lib/database_service.dart';
 
 /// GET /user/[id]
 /// Retrieves a user by ID
@@ -18,25 +18,27 @@ Future<Response> onRequest(RequestContext context, String id) async {
     final userId = int.parse(id);
     
     final db = DatabaseService();
+
+    print('[[id].dart] Get user $userId request received');
     final results = await db.query(
       'SELECT id, email, last_name, created_at FROM skillsez_user WHERE id = ?',
       [userId],
     );
-
-    if (results.isEmpty) {
+    
+    if (results.rows.isEmpty) {
       return Response(
         statusCode: 404,
         headers: _corsHeaders(),
-        body: jsonEncode({'error': 'User not found'}),
+        body: jsonEncode({'error': '[[id].dart] User not found'}),
       );
     }
-
-    final row = results.first;
+    
+    final row = results.rows.first;
     final user = User(
-      id: row['id'] as int,
-      email: row['email'] as String,
-      lastName: row['last_name'] as String,
-      createdAt: row['created_at'] as DateTime?,
+      id: int.parse((row.colByName('id'))?.toString() ?? '0'),
+      email: (row.colByName('email'))?.toString() ?? '',
+      lastName: (row.colByName('last_name'))?.toString() ?? '',
+      createdAt: DateTime.tryParse((row.colByName('created_at'))?.toString() ?? ''),
     );
 
     return Response(

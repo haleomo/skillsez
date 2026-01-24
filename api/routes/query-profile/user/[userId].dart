@@ -19,24 +19,25 @@ Future<Response> onRequest(RequestContext context, String userId) async {
     
     final db = DatabaseService();
     final results = await db.query(
-      '''SELECT id, user_id, query_date, query_text, source_discipline, 
+      '''
+        SELECT id, user_id, query_date, query_text, source_discipline, 
         subjecteducation_level, subject_discipline, topic, goal, role 
         FROM query_profile WHERE user_id = ? ORDER BY query_date DESC''',
       [userIdInt],
     );
-
-    final queryProfiles = results.map((row) {
+    
+    final queryProfiles = results.rows.map((row) {
       return QueryProfileRecord(
-        id: row['id'] as int,
-        userId: row['user_id'] as int,
-        queryDate: row['query_date'] as DateTime?,
-        queryText: row['query_text'] as String,
-        sourceDiscipline: row['source_discipline'] as String,
-        subjectEducationLevel: row['subjecteducation_level'] as String,
-        subjectDiscipline: row['subject_discipline'] as String,
-        topic: row['topic'] as String,
-        goal: row['goal'] as String,
-        role: row['role'] as String,
+        id: int.parse((row.colByName('id'))?.toString() ?? '0'),
+        userId: int.parse((row.colByName('user_id'))?.toString() ?? '0'),
+        queryDate: DateTime.tryParse((row.colByName('query_date'))?.toString() ?? ''),
+        queryText: (row.colByName('query_text'))?.toString() ?? '',
+        sourceDiscipline: (row.colByName('source_discipline'))?.toString() ?? '',
+        subjectEducationLevel: (row.colByName('subjecteducation_level'))?.toString() ?? '',
+        subjectDiscipline: (row.colByName('subject_discipline'))?.toString() ?? '',
+        topic: (row.colByName('topic'))?.toString() ?? '',
+        goal: (row.colByName('goal'))?.toString() ?? '',
+        role: (row.colByName('role'))?.toString() ?? '',
       );
     }).toList();
 

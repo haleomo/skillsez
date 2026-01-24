@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:api/database_service.dart';
 import 'package:dart_frog/dart_frog.dart';
-import 'package:mysql_client_plus/mysql_client_plus.dart';
 
 /// POST /query-profile
 /// Creates a new query profile in the database
@@ -16,7 +15,7 @@ Future<Response> onRequest(RequestContext context) async {
   String? goal;
   String? role;
 
-  late final Future<ResultSet> result;
+  // Using DatabaseService.insert for insert operations
 
 
   // Handle CORS preflight requests
@@ -80,16 +79,33 @@ Future<Response> onRequest(RequestContext context) async {
     
     // Insert query profile in database
     try {
-        result = db.query(
-          '''
-          INSERT INTO query_profile 
-          (user_id, query_text, source_discipline, subject_education_level, 
-          subject_work_experience, subject_discipline, topic, goal, role) 
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-          [userId, queryText ?? '', sourceDiscipline ?? '', subjectEducationLevel ?? '', 
-          subjectWorkExperience ?? '', subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
-        );
-      } catch (e) { 
+      final queryId = await db.insert(
+        '''
+        INSERT INTO query_profile 
+        (user_id, query_text, source_discipline, subject_education_level, 
+        subject_work_experience, subject_discipline, topic, goal, role) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        [userId, queryText, sourceDiscipline ?? '', subjectEducationLevel ?? '', 
+        subjectWorkExperience ?? '', subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
+      );
+      print('Inserted/updated query profile with ID: $queryId');
+
+      return Response(
+        statusCode: 201,
+        headers: {
+          'Content-Type': 'application/json',
+          ..._corsHeaders(),
+        },
+        body: jsonEncode({
+          'success': true,
+          'data': {
+            'id': queryId,
+            'userId': userId,
+            'topic': topic,
+          }
+        }),
+      );
+    } catch (e) { 
         print('Error inserting/updating query profile: $e');
         return Response(
           statusCode: 500,
@@ -97,26 +113,6 @@ Future<Response> onRequest(RequestContext context) async {
           body: jsonEncode({'error': 'Failed to insert/update (Query Profile): ${e.toString()}'}),
         );
       }
-
-    print('Inserted/updated query profile');
-    final queryId = (await result).length;
-    print('Query Profile ID: $queryId');
-
-    return Response(
-      statusCode: 201,
-      headers: {
-        'Content-Type': 'application/json',
-        ..._corsHeaders(),
-      },
-      body: jsonEncode({
-        'success': true,
-        'data': {
-          'id': 0,
-          'userId': userId,
-          'topic': topic,
-        }
-      }),
-    );
   } catch (e) {
     print('Error processing request (Query Profile): $e');
     if (e is FormatException) {

@@ -19,26 +19,29 @@ Future<Response> onRequest(RequestContext context, String id) async {
     
     final db = DatabaseService();
     final results = await db.query(
-      '''SELECT id, query_result_nickname, query_id, result_text, result_date 
-         FROM query_result WHERE id = ?''',
+      '''
+        SELECT id, query_result_nickname, query_id, result_text, result_date 
+        FROM query_result WHERE id = ?''',
       [resultId],
     );
 
-    if (results.isEmpty) {
+    if (results.rows.isEmpty) {
       return Response(
         statusCode: 404,
         headers: _corsHeaders(),
         body: jsonEncode({'error': 'Query result not found'}),
       );
     }
-
-    final row = results.first;
+    
+    final row = results.rows.first;
     final queryResult = QueryResult(
-      id: row['id'] as int,
-      queryResultNickname: row['query_result_nickname'] as String,
-      queryId: row['query_id'] as int,
-      resultText: row['result_text'] as String,
-      resultDate: row['result_date'] as DateTime?,
+      id: int.parse((row.colByName('id'))?.toString() ?? '0'),
+      // ignore: lines_longer_than_80_chars
+      queryResultNickname: (row.colByName('query_result_nickname'))?.toString() ?? '',
+      queryId: int.parse((row.colByName('query_id'))?.toString() ?? '0'),
+      resultText: (row.colByName('result_text'))?.toString() ?? '',
+      // ignore: lines_longer_than_80_chars
+      resultDate: DateTime.tryParse((row.colByName('result_date'))?.toString() ?? ''),
     );
 
     return Response(

@@ -14,5 +14,9 @@
   {
     "question": "Can I save a learning plan?",
     "answer": "Yes, you can save your learning plan by exporting it to a PDF file which you can review as you need."
+  },
+  {
+    "question": "Why don't I get a prompt for my e-mail and last name?",
+    "answer": "You may have already registered or declined to register and there is a cookie set in your browser. You're required to remove cookies and refresh the page."
   }
 ]

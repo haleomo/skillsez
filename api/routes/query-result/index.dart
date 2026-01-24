@@ -1,16 +1,11 @@
 import 'dart:convert';
-
+import 'package:api/database_service.dart';
 import 'package:dart_frog/dart_frog.dart';
-import 'package:mysql_client_plus/mysql_client_plus.dart';
-import 'package:shared/shared.dart';
-
-import '../../lib/database_service.dart';
 
 /// POST /query-result
 /// Creates a new query result (learning plan) in the database
 Future<Response> onRequest(RequestContext context) async {
   
-  late final ResultSet result;
 
   // Handle CORS preflight requests
   if (context.request.method == HttpMethod.options) {
@@ -70,14 +65,34 @@ Future<Response> onRequest(RequestContext context) async {
     try{
       print('Inserting query result in database');
       // Insert query result in database
-      result = await db.query(
-        '''INSERT INTO query_result 
+      final resultId = await db.insert(
+        '''
+        INSERT INTO query_result 
         (query_result_nickname, query_id, result_text) 
         VALUES (?, ?, ?)''',
         [queryResultNickname, queryProfileId, resultText],
       );
 
-      print('Query result inserted successfully');
+      print('Query result inserted successfully with ID: $resultId');
+
+      print('Fetching insert ID for query result');
+      print('Insert ID for query result: $resultId');
+      
+      return Response(
+        statusCode: 201,
+        headers: {
+          'Content-Type': 'application/json',
+          ..._corsHeaders(),
+        },
+        body: jsonEncode({
+          'success': true,
+          'data': {
+            'id': resultId,
+            'queryProfileId': queryProfileId,
+            'nickname': queryResultNickname,
+          }
+        }),
+      );
 
     } catch (e) {
       print('Error initializing database (Query Result): $e');
@@ -87,27 +102,6 @@ Future<Response> onRequest(RequestContext context) async {
         body: jsonEncode({'error': 'Failed to initialize database (Query Result): ${e.toString()}'}),
       );
     }
-    
-    print('Fetching insert ID for query result');
-
-    final resultId = result.length;
-    print('Insert ID for query result: $resultId');
-    
-    return Response(
-      statusCode: 201,
-      headers: {
-        'Content-Type': 'application/json',
-        ..._corsHeaders(),
-      },
-      body: jsonEncode({
-        'success': true,
-        'data': {
-          'id': resultId,
-          'queryProfileId': queryProfileId,
-          'nickname': queryResultNickname,
-        }
-      }),
-    );
   } catch (e) {
     if (e is FormatException) {
       return Response(

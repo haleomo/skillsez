@@ -17,27 +17,28 @@ Future<Response> onRequest(RequestContext context) async {
   try {
     final db = DatabaseService();
     final results = await db.query(
-      '''SELECT user_id, email, last_name, created_at, query_id, query_date, 
-               query_text, source_discipline, subjecteducation_level, 
-               subject_discipline, topic, goal, role 
+      '''
+        SELECT user_id, email, last_name, created_at, query_id, query_date, 
+          query_text, source_discipline, subjecteducation_level, 
+          subject_discipline, topic, goal, role 
         FROM user_query_view ORDER BY query_date DESC''',
     );
-
-    final userQueries = results.map((row) {
+    
+    final userQueries = results.rows.map((row) {
       return UserQueryView(
-        userId: row['user_id'] as int,
-        email: row['email'] as String,
-        lastName: row['last_name'] as String,
-        createdAt: row['created_at'] as DateTime?,
-        queryId: row['query_id'] as int,
-        queryDate: row['query_date'] as DateTime?,
-        queryText: row['query_text'] as String,
-        sourceDiscipline: row['source_discipline'] as String,
-        subjectEducationLevel: row['subjecteducation_level'] as String,
-        subjectDiscipline: row['subject_discipline'] as String,
-        topic: row['topic'] as String,
-        goal: row['goal'] as String,
-        role: row['role'] as String,
+        userId: int.parse((row.colByName('user_id'))?.toString() ?? '0'),
+        email: (row.colByName('email'))?.toString() ?? '',
+        lastName: (row.colByName('last_name'))?.toString() ?? '',
+        createdAt: DateTime.tryParse((row.colByName('created_at'))?.toString() ?? ''),
+        queryId: int.parse((row.colByName('query_id'))?.toString() ?? '0'),
+        queryDate: DateTime.tryParse((row.colByName('query_date'))?.toString() ?? ''),
+        queryText: (row.colByName('query_text'))?.toString() ?? '',
+        sourceDiscipline: (row.colByName('source_discipline'))?.toString() ?? '',
+        subjectEducationLevel: (row.colByName('subjecteducation_level'))?.toString() ?? '',
+        subjectDiscipline: (row.colByName('subject_discipline'))?.toString() ?? '',
+        topic: (row.colByName('topic'))?.toString() ?? '',
+        goal: (row.colByName('goal'))?.toString() ?? '',
+        role: (row.colByName('role'))?.toString() ?? '',
       );
     }).toList();
 

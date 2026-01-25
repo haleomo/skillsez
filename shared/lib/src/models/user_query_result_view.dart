@@ -13,14 +13,20 @@ abstract class UserQueryResultView with _$UserQueryResultView {
     /// User's last name
     required String lastName,
     
+    /// Associated query ID
+    required int queryId,
+    
     /// Query result nickname
     required String queryResultNickname,
     
-    /// Result text/content
-    required String resultText,
-    
     /// Date the result was saved
     DateTime? resultDate,
+    
+    /// Query result ID
+    required int resultId,
+    
+    /// Result text/content
+    required String resultText,
   }) = _UserQueryResultView;
 
   /// Creates a UserQueryResultView from JSON

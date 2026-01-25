@@ -17,10 +17,12 @@ mixin _$UserQueryResultView {
 
 /// User's email
  String get email;/// User's last name
- String get lastName;/// Query result nickname
- String get queryResultNickname;/// Result text/content
- String get resultText;/// Date the result was saved
- DateTime? get resultDate;
+ String get lastName;/// Associated query ID
+ int get queryId;/// Query result nickname
+ String get queryResultNickname;/// Date the result was saved
+ DateTime? get resultDate;/// Query result ID
+ int get resultId;/// Result text/content
+ String get resultText;
 /// Create a copy of UserQueryResultView
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -33,16 +35,16 @@ $UserQueryResultViewCopyWith<UserQueryResultView> get copyWith => _$UserQueryRes
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserQueryResultView&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.queryResultNickname, queryResultNickname) || other.queryResultNickname == queryResultNickname)&&(identical(other.resultText, resultText) || other.resultText == resultText)&&(identical(other.resultDate, resultDate) || other.resultDate == resultDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserQueryResultView&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryResultNickname, queryResultNickname) || other.queryResultNickname == queryResultNickname)&&(identical(other.resultDate, resultDate) || other.resultDate == resultDate)&&(identical(other.resultId, resultId) || other.resultId == resultId)&&(identical(other.resultText, resultText) || other.resultText == resultText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,email,lastName,queryResultNickname,resultText,resultDate);
+int get hashCode => Object.hash(runtimeType,email,lastName,queryId,queryResultNickname,resultDate,resultId,resultText);
 
 @override
 String toString() {
-  return 'UserQueryResultView(email: $email, lastName: $lastName, queryResultNickname: $queryResultNickname, resultText: $resultText, resultDate: $resultDate)';
+  return 'UserQueryResultView(email: $email, lastName: $lastName, queryId: $queryId, queryResultNickname: $queryResultNickname, resultDate: $resultDate, resultId: $resultId, resultText: $resultText)';
 }
 
 
@@ -53,7 +55,7 @@ abstract mixin class $UserQueryResultViewCopyWith<$Res>  {
   factory $UserQueryResultViewCopyWith(UserQueryResultView value, $Res Function(UserQueryResultView) _then) = _$UserQueryResultViewCopyWithImpl;
 @useResult
 $Res call({
- String email, String lastName, String queryResultNickname, String resultText, DateTime? resultDate
+ String email, String lastName, int queryId, String queryResultNickname, DateTime? resultDate, int resultId, String resultText
 });
 
 
@@ -70,14 +72,16 @@ class _$UserQueryResultViewCopyWithImpl<$Res>
 
 /// Create a copy of UserQueryResultView
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? lastName = null,Object? queryResultNickname = null,Object? resultText = null,Object? resultDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? lastName = null,Object? queryId = null,Object? queryResultNickname = null,Object? resultDate = freezed,Object? resultId = null,Object? resultText = null,}) {
   return _then(_self.copyWith(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
-as String,queryResultNickname: null == queryResultNickname ? _self.queryResultNickname : queryResultNickname // ignore: cast_nullable_to_non_nullable
-as String,resultText: null == resultText ? _self.resultText : resultText // ignore: cast_nullable_to_non_nullable
+as String,queryId: null == queryId ? _self.queryId : queryId // ignore: cast_nullable_to_non_nullable
+as int,queryResultNickname: null == queryResultNickname ? _self.queryResultNickname : queryResultNickname // ignore: cast_nullable_to_non_nullable
 as String,resultDate: freezed == resultDate ? _self.resultDate : resultDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,resultId: null == resultId ? _self.resultId : resultId // ignore: cast_nullable_to_non_nullable
+as int,resultText: null == resultText ? _self.resultText : resultText // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -162,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String lastName,  String queryResultNickname,  String resultText,  DateTime? resultDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String lastName,  int queryId,  String queryResultNickname,  DateTime? resultDate,  int resultId,  String resultText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserQueryResultView() when $default != null:
-return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resultText,_that.resultDate);case _:
+return $default(_that.email,_that.lastName,_that.queryId,_that.queryResultNickname,_that.resultDate,_that.resultId,_that.resultText);case _:
   return orElse();
 
 }
@@ -183,10 +187,10 @@ return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resul
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String lastName,  String queryResultNickname,  String resultText,  DateTime? resultDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String lastName,  int queryId,  String queryResultNickname,  DateTime? resultDate,  int resultId,  String resultText)  $default,) {final _that = this;
 switch (_that) {
 case _UserQueryResultView():
-return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resultText,_that.resultDate);case _:
+return $default(_that.email,_that.lastName,_that.queryId,_that.queryResultNickname,_that.resultDate,_that.resultId,_that.resultText);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +207,10 @@ return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resul
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String lastName,  String queryResultNickname,  String resultText,  DateTime? resultDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String lastName,  int queryId,  String queryResultNickname,  DateTime? resultDate,  int resultId,  String resultText)?  $default,) {final _that = this;
 switch (_that) {
 case _UserQueryResultView() when $default != null:
-return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resultText,_that.resultDate);case _:
+return $default(_that.email,_that.lastName,_that.queryId,_that.queryResultNickname,_that.resultDate,_that.resultId,_that.resultText);case _:
   return null;
 
 }
@@ -218,19 +222,23 @@ return $default(_that.email,_that.lastName,_that.queryResultNickname,_that.resul
 @JsonSerializable()
 
 class _UserQueryResultView implements UserQueryResultView {
-  const _UserQueryResultView({required this.email, required this.lastName, required this.queryResultNickname, required this.resultText, this.resultDate});
+  const _UserQueryResultView({required this.email, required this.lastName, required this.queryId, required this.queryResultNickname, this.resultDate, required this.resultId, required this.resultText});
   factory _UserQueryResultView.fromJson(Map<String, dynamic> json) => _$UserQueryResultViewFromJson(json);
 
 /// User's email
 @override final  String email;
 /// User's last name
 @override final  String lastName;
+/// Associated query ID
+@override final  int queryId;
 /// Query result nickname
 @override final  String queryResultNickname;
-/// Result text/content
-@override final  String resultText;
 /// Date the result was saved
 @override final  DateTime? resultDate;
+/// Query result ID
+@override final  int resultId;
+/// Result text/content
+@override final  String resultText;
 
 /// Create a copy of UserQueryResultView
 /// with the given fields replaced by the non-null parameter values.
@@ -245,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserQueryResultView&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.queryResultNickname, queryResultNickname) || other.queryResultNickname == queryResultNickname)&&(identical(other.resultText, resultText) || other.resultText == resultText)&&(identical(other.resultDate, resultDate) || other.resultDate == resultDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserQueryResultView&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryResultNickname, queryResultNickname) || other.queryResultNickname == queryResultNickname)&&(identical(other.resultDate, resultDate) || other.resultDate == resultDate)&&(identical(other.resultId, resultId) || other.resultId == resultId)&&(identical(other.resultText, resultText) || other.resultText == resultText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,email,lastName,queryResultNickname,resultText,resultDate);
+int get hashCode => Object.hash(runtimeType,email,lastName,queryId,queryResultNickname,resultDate,resultId,resultText);
 
 @override
 String toString() {
-  return 'UserQueryResultView(email: $email, lastName: $lastName, queryResultNickname: $queryResultNickname, resultText: $resultText, resultDate: $resultDate)';
+  return 'UserQueryResultView(email: $email, lastName: $lastName, queryId: $queryId, queryResultNickname: $queryResultNickname, resultDate: $resultDate, resultId: $resultId, resultText: $resultText)';
 }
 
 
@@ -265,7 +273,7 @@ abstract mixin class _$UserQueryResultViewCopyWith<$Res> implements $UserQueryRe
   factory _$UserQueryResultViewCopyWith(_UserQueryResultView value, $Res Function(_UserQueryResultView) _then) = __$UserQueryResultViewCopyWithImpl;
 @override @useResult
 $Res call({
- String email, String lastName, String queryResultNickname, String resultText, DateTime? resultDate
+ String email, String lastName, int queryId, String queryResultNickname, DateTime? resultDate, int resultId, String resultText
 });
 
 
@@ -282,14 +290,16 @@ class __$UserQueryResultViewCopyWithImpl<$Res>
 
 /// Create a copy of UserQueryResultView
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? lastName = null,Object? queryResultNickname = null,Object? resultText = null,Object? resultDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? lastName = null,Object? queryId = null,Object? queryResultNickname = null,Object? resultDate = freezed,Object? resultId = null,Object? resultText = null,}) {
   return _then(_UserQueryResultView(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
-as String,queryResultNickname: null == queryResultNickname ? _self.queryResultNickname : queryResultNickname // ignore: cast_nullable_to_non_nullable
-as String,resultText: null == resultText ? _self.resultText : resultText // ignore: cast_nullable_to_non_nullable
+as String,queryId: null == queryId ? _self.queryId : queryId // ignore: cast_nullable_to_non_nullable
+as int,queryResultNickname: null == queryResultNickname ? _self.queryResultNickname : queryResultNickname // ignore: cast_nullable_to_non_nullable
 as String,resultDate: freezed == resultDate ? _self.resultDate : resultDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,resultId: null == resultId ? _self.resultId : resultId // ignore: cast_nullable_to_non_nullable
+as int,resultText: null == resultText ? _self.resultText : resultText // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

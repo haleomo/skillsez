@@ -17,17 +17,20 @@ Future<Response> onRequest(RequestContext context) async {
   try {
     final db = DatabaseService();
     final results = await db.query(
-      '''SELECT email, last_name, query_result_nickname, result_text, result_date 
-         FROM user_query_result_view ORDER BY result_date DESC''',
+      '''
+        SELECT email, last_name, result_id, query_id, query_result_nickname, result_text, result_date 
+        FROM user_query_result_view ORDER BY result_date DESC''',
     );
     
     final userQueryResults = results.rows.map((row) {
       return UserQueryResultView(
-        email: (row.colByName('email'))?.toString() ?? '',
-        lastName: (row.colByName('last_name'))?.toString() ?? '',
-        queryResultNickname: (row.colByName('query_result_nickname'))?.toString() ?? '',
-        resultText: (row.colByName('result_text'))?.toString() ?? '',
-        resultDate: DateTime.tryParse((row.colByName('result_date'))?.toString() ?? ''),
+        email: row.colByName('email')?.toString() ?? '',
+        lastName: row.colByName('last_name')?.toString() ?? '',
+        resultId: int.parse(row.colByName('result_id')?.toString() ?? '0'),
+        queryId: int.parse(row.colByName('query_id')?.toString() ?? '0'),
+        queryResultNickname: row.colByName('query_result_nickname')?.toString() ?? '',
+        resultText: row.colByName('result_text')?.toString() ?? '',
+        resultDate: DateTime.tryParse(row.colByName('result_date')?.toString() ?? ''),
       );
     }).toList();
 
@@ -41,7 +44,7 @@ Future<Response> onRequest(RequestContext context) async {
         'success': true,
         'data': {
           'count': userQueryResults.length,
-          'userQueryResults': userQueryResults.map((uqr) => uqr.toJson()).toList()
+          'userQueryResults': userQueryResults.map((uqr) => uqr.toJson()).toList() 
         }
       }),
     );

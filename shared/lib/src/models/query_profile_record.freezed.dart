@@ -22,7 +22,8 @@ mixin _$QueryProfileRecord {
  String get queryText;/// The discipline or field of expertise of the source expert
  String get sourceDiscipline;/// The education level of the subject
  String get subjectEducationLevel;/// The primary discipline or field of study for the subject
- String get subjectDiscipline;/// The specific topic or skill to be learned
+ String get subjectDiscipline;/// The subject's relevant work experience
+ String get subjectWorkExperience;/// The specific topic or skill to be learned
  String get topic;/// The goal for learning this skill
  String get goal;/// The target role the subject wants to achieve
  String get role;
@@ -38,16 +39,16 @@ $QueryProfileRecordCopyWith<QueryProfileRecord> get copyWith => _$QueryProfileRe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryProfileRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryProfileRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.subjectWorkExperience, subjectWorkExperience) || other.subjectWorkExperience == subjectWorkExperience)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,topic,goal,role);
+int get hashCode => Object.hash(runtimeType,id,userId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,subjectWorkExperience,topic,goal,role);
 
 @override
 String toString() {
-  return 'QueryProfileRecord(id: $id, userId: $userId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, topic: $topic, goal: $goal, role: $role)';
+  return 'QueryProfileRecord(id: $id, userId: $userId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, subjectWorkExperience: $subjectWorkExperience, topic: $topic, goal: $goal, role: $role)';
 }
 
 
@@ -58,7 +59,7 @@ abstract mixin class $QueryProfileRecordCopyWith<$Res>  {
   factory $QueryProfileRecordCopyWith(QueryProfileRecord value, $Res Function(QueryProfileRecord) _then) = _$QueryProfileRecordCopyWithImpl;
 @useResult
 $Res call({
- int? id, int userId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String topic, String goal, String role
+ int? id, int userId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String subjectWorkExperience, String topic, String goal, String role
 });
 
 
@@ -75,7 +76,7 @@ class _$QueryProfileRecordCopyWithImpl<$Res>
 
 /// Create a copy of QueryProfileRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? userId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? userId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? subjectWorkExperience = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -84,6 +85,7 @@ as DateTime?,queryText: null == queryText ? _self.queryText : queryText // ignor
 as String,sourceDiscipline: null == sourceDiscipline ? _self.sourceDiscipline : sourceDiscipline // ignore: cast_nullable_to_non_nullable
 as String,subjectEducationLevel: null == subjectEducationLevel ? _self.subjectEducationLevel : subjectEducationLevel // ignore: cast_nullable_to_non_nullable
 as String,subjectDiscipline: null == subjectDiscipline ? _self.subjectDiscipline : subjectDiscipline // ignore: cast_nullable_to_non_nullable
+as String,subjectWorkExperience: null == subjectWorkExperience ? _self.subjectWorkExperience : subjectWorkExperience // ignore: cast_nullable_to_non_nullable
 as String,topic: null == topic ? _self.topic : topic // ignore: cast_nullable_to_non_nullable
 as String,goal: null == goal ? _self.goal : goal // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
@@ -172,10 +174,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _QueryProfileRecord() when $default != null:
-return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   return orElse();
 
 }
@@ -193,10 +195,10 @@ return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sour
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)  $default,) {final _that = this;
 switch (_that) {
 case _QueryProfileRecord():
-return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -213,10 +215,10 @@ return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sour
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int userId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)?  $default,) {final _that = this;
 switch (_that) {
 case _QueryProfileRecord() when $default != null:
-return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   return null;
 
 }
@@ -228,7 +230,7 @@ return $default(_that.id,_that.userId,_that.queryDate,_that.queryText,_that.sour
 @JsonSerializable()
 
 class _QueryProfileRecord implements QueryProfileRecord {
-  const _QueryProfileRecord({this.id, required this.userId, this.queryDate, required this.queryText, required this.sourceDiscipline, required this.subjectEducationLevel, required this.subjectDiscipline, required this.topic, required this.goal, required this.role});
+  const _QueryProfileRecord({this.id, required this.userId, this.queryDate, required this.queryText, required this.sourceDiscipline, required this.subjectEducationLevel, required this.subjectDiscipline, required this.subjectWorkExperience, required this.topic, required this.goal, required this.role});
   factory _QueryProfileRecord.fromJson(Map<String, dynamic> json) => _$QueryProfileRecordFromJson(json);
 
 /// Unique identifier for the record
@@ -245,6 +247,8 @@ class _QueryProfileRecord implements QueryProfileRecord {
 @override final  String subjectEducationLevel;
 /// The primary discipline or field of study for the subject
 @override final  String subjectDiscipline;
+/// The subject's relevant work experience
+@override final  String subjectWorkExperience;
 /// The specific topic or skill to be learned
 @override final  String topic;
 /// The goal for learning this skill
@@ -265,16 +269,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryProfileRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryProfileRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.subjectWorkExperience, subjectWorkExperience) || other.subjectWorkExperience == subjectWorkExperience)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,topic,goal,role);
+int get hashCode => Object.hash(runtimeType,id,userId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,subjectWorkExperience,topic,goal,role);
 
 @override
 String toString() {
-  return 'QueryProfileRecord(id: $id, userId: $userId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, topic: $topic, goal: $goal, role: $role)';
+  return 'QueryProfileRecord(id: $id, userId: $userId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, subjectWorkExperience: $subjectWorkExperience, topic: $topic, goal: $goal, role: $role)';
 }
 
 
@@ -285,7 +289,7 @@ abstract mixin class _$QueryProfileRecordCopyWith<$Res> implements $QueryProfile
   factory _$QueryProfileRecordCopyWith(_QueryProfileRecord value, $Res Function(_QueryProfileRecord) _then) = __$QueryProfileRecordCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, int userId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String topic, String goal, String role
+ int? id, int userId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String subjectWorkExperience, String topic, String goal, String role
 });
 
 
@@ -302,7 +306,7 @@ class __$QueryProfileRecordCopyWithImpl<$Res>
 
 /// Create a copy of QueryProfileRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? userId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? userId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? subjectWorkExperience = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
   return _then(_QueryProfileRecord(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -311,6 +315,7 @@ as DateTime?,queryText: null == queryText ? _self.queryText : queryText // ignor
 as String,sourceDiscipline: null == sourceDiscipline ? _self.sourceDiscipline : sourceDiscipline // ignore: cast_nullable_to_non_nullable
 as String,subjectEducationLevel: null == subjectEducationLevel ? _self.subjectEducationLevel : subjectEducationLevel // ignore: cast_nullable_to_non_nullable
 as String,subjectDiscipline: null == subjectDiscipline ? _self.subjectDiscipline : subjectDiscipline // ignore: cast_nullable_to_non_nullable
+as String,subjectWorkExperience: null == subjectWorkExperience ? _self.subjectWorkExperience : subjectWorkExperience // ignore: cast_nullable_to_non_nullable
 as String,topic: null == topic ? _self.topic : topic // ignore: cast_nullable_to_non_nullable
 as String,goal: null == goal ? _self.goal : goal // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable

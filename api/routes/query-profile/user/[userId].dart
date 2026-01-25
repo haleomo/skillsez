@@ -20,8 +20,9 @@ Future<Response> onRequest(RequestContext context, String userId) async {
     final db = DatabaseService();
     final results = await db.query(
       '''
-        SELECT id, user_id, query_date, query_text, source_discipline, 
-        subjecteducation_level, subject_discipline, topic, goal, role 
+        SELECT id, user_id, query_date, query_text, source_discipline,
+        subject_education_level, subject_work_experience, subject_discipline, 
+        topic, goal, role 
         FROM query_profile WHERE user_id = ? ORDER BY query_date DESC''',
       [userIdInt],
     );
@@ -33,7 +34,8 @@ Future<Response> onRequest(RequestContext context, String userId) async {
         queryDate: DateTime.tryParse((row.colByName('query_date'))?.toString() ?? ''),
         queryText: (row.colByName('query_text'))?.toString() ?? '',
         sourceDiscipline: (row.colByName('source_discipline'))?.toString() ?? '',
-        subjectEducationLevel: (row.colByName('subjecteducation_level'))?.toString() ?? '',
+        subjectEducationLevel: (row.colByName('subject_education_level'))?.toString() ?? '',
+        subjectWorkExperience: (row.colByName('subject_work_experience'))?.toString() ?? '',
         subjectDiscipline: (row.colByName('subject_discipline'))?.toString() ?? '',
         topic: (row.colByName('topic'))?.toString() ?? '',
         goal: (row.colByName('goal'))?.toString() ?? '',

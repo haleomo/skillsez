@@ -19,7 +19,7 @@ Future<Response> onRequest(RequestContext context) async {
     final results = await db.query(
       '''
         SELECT user_id, email, last_name, created_at, query_id, query_date, 
-          query_text, source_discipline, subjecteducation_level, 
+          query_text, source_discipline, subject_education_level, subject_work_experience,
           subject_discipline, topic, goal, role 
         FROM user_query_view ORDER BY query_date DESC''',
     );
@@ -34,7 +34,8 @@ Future<Response> onRequest(RequestContext context) async {
         queryDate: DateTime.tryParse((row.colByName('query_date'))?.toString() ?? ''),
         queryText: (row.colByName('query_text'))?.toString() ?? '',
         sourceDiscipline: (row.colByName('source_discipline'))?.toString() ?? '',
-        subjectEducationLevel: (row.colByName('subjecteducation_level'))?.toString() ?? '',
+        subjectEducationLevel: (row.colByName('subject_education_level'))?.toString() ?? '',
+        subjectWorkExperience: (row.colByName('subject_work_experience'))?.toString() ?? '',
         subjectDiscipline: (row.colByName('subject_discipline'))?.toString() ?? '',
         topic: (row.colByName('topic'))?.toString() ?? '',
         goal: (row.colByName('goal'))?.toString() ?? '',

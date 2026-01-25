@@ -37,6 +37,9 @@ abstract class UserQueryView with _$UserQueryView {
     /// Subject discipline
     required String subjectDiscipline,
     
+    /// Subject work experience
+    required String subjectWorkExperience,
+    
     /// Topic
     required String topic,
     

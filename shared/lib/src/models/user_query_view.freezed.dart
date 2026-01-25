@@ -25,7 +25,8 @@ mixin _$UserQueryView {
  String get queryText;/// Source discipline
  String get sourceDiscipline;/// Subject education level
  String get subjectEducationLevel;/// Subject discipline
- String get subjectDiscipline;/// Topic
+ String get subjectDiscipline;/// Subject work experience
+ String get subjectWorkExperience;/// Topic
  String get topic;/// Goal
  String get goal;/// Role
  String get role;
@@ -41,16 +42,16 @@ $UserQueryViewCopyWith<UserQueryView> get copyWith => _$UserQueryViewCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserQueryView&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserQueryView&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.subjectWorkExperience, subjectWorkExperience) || other.subjectWorkExperience == subjectWorkExperience)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,email,lastName,createdAt,queryId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,topic,goal,role);
+int get hashCode => Object.hash(runtimeType,userId,email,lastName,createdAt,queryId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,subjectWorkExperience,topic,goal,role);
 
 @override
 String toString() {
-  return 'UserQueryView(userId: $userId, email: $email, lastName: $lastName, createdAt: $createdAt, queryId: $queryId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, topic: $topic, goal: $goal, role: $role)';
+  return 'UserQueryView(userId: $userId, email: $email, lastName: $lastName, createdAt: $createdAt, queryId: $queryId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, subjectWorkExperience: $subjectWorkExperience, topic: $topic, goal: $goal, role: $role)';
 }
 
 
@@ -61,7 +62,7 @@ abstract mixin class $UserQueryViewCopyWith<$Res>  {
   factory $UserQueryViewCopyWith(UserQueryView value, $Res Function(UserQueryView) _then) = _$UserQueryViewCopyWithImpl;
 @useResult
 $Res call({
- int userId, String email, String lastName, DateTime? createdAt, int queryId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String topic, String goal, String role
+ int userId, String email, String lastName, DateTime? createdAt, int queryId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String subjectWorkExperience, String topic, String goal, String role
 });
 
 
@@ -78,7 +79,7 @@ class _$UserQueryViewCopyWithImpl<$Res>
 
 /// Create a copy of UserQueryView
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? email = null,Object? lastName = null,Object? createdAt = freezed,Object? queryId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? email = null,Object? lastName = null,Object? createdAt = freezed,Object? queryId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? subjectWorkExperience = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
@@ -90,6 +91,7 @@ as DateTime?,queryText: null == queryText ? _self.queryText : queryText // ignor
 as String,sourceDiscipline: null == sourceDiscipline ? _self.sourceDiscipline : sourceDiscipline // ignore: cast_nullable_to_non_nullable
 as String,subjectEducationLevel: null == subjectEducationLevel ? _self.subjectEducationLevel : subjectEducationLevel // ignore: cast_nullable_to_non_nullable
 as String,subjectDiscipline: null == subjectDiscipline ? _self.subjectDiscipline : subjectDiscipline // ignore: cast_nullable_to_non_nullable
+as String,subjectWorkExperience: null == subjectWorkExperience ? _self.subjectWorkExperience : subjectWorkExperience // ignore: cast_nullable_to_non_nullable
 as String,topic: null == topic ? _self.topic : topic // ignore: cast_nullable_to_non_nullable
 as String,goal: null == goal ? _self.goal : goal // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
@@ -178,10 +180,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserQueryView() when $default != null:
-return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   return orElse();
 
 }
@@ -199,10 +201,10 @@ return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.qu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)  $default,) {final _that = this;
 switch (_that) {
 case _UserQueryView():
-return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +221,10 @@ return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.qu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String topic,  String goal,  String role)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String email,  String lastName,  DateTime? createdAt,  int queryId,  DateTime? queryDate,  String queryText,  String sourceDiscipline,  String subjectEducationLevel,  String subjectDiscipline,  String subjectWorkExperience,  String topic,  String goal,  String role)?  $default,) {final _that = this;
 switch (_that) {
 case _UserQueryView() when $default != null:
-return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.topic,_that.goal,_that.role);case _:
+return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.queryId,_that.queryDate,_that.queryText,_that.sourceDiscipline,_that.subjectEducationLevel,_that.subjectDiscipline,_that.subjectWorkExperience,_that.topic,_that.goal,_that.role);case _:
   return null;
 
 }
@@ -234,7 +236,7 @@ return $default(_that.userId,_that.email,_that.lastName,_that.createdAt,_that.qu
 @JsonSerializable()
 
 class _UserQueryView implements UserQueryView {
-  const _UserQueryView({required this.userId, required this.email, required this.lastName, this.createdAt, required this.queryId, this.queryDate, required this.queryText, required this.sourceDiscipline, required this.subjectEducationLevel, required this.subjectDiscipline, required this.topic, required this.goal, required this.role});
+  const _UserQueryView({required this.userId, required this.email, required this.lastName, this.createdAt, required this.queryId, this.queryDate, required this.queryText, required this.sourceDiscipline, required this.subjectEducationLevel, required this.subjectDiscipline, required this.subjectWorkExperience, required this.topic, required this.goal, required this.role});
   factory _UserQueryView.fromJson(Map<String, dynamic> json) => _$UserQueryViewFromJson(json);
 
 /// User ID
@@ -257,6 +259,8 @@ class _UserQueryView implements UserQueryView {
 @override final  String subjectEducationLevel;
 /// Subject discipline
 @override final  String subjectDiscipline;
+/// Subject work experience
+@override final  String subjectWorkExperience;
 /// Topic
 @override final  String topic;
 /// Goal
@@ -277,16 +281,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserQueryView&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserQueryView&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.email, email) || other.email == email)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.queryId, queryId) || other.queryId == queryId)&&(identical(other.queryDate, queryDate) || other.queryDate == queryDate)&&(identical(other.queryText, queryText) || other.queryText == queryText)&&(identical(other.sourceDiscipline, sourceDiscipline) || other.sourceDiscipline == sourceDiscipline)&&(identical(other.subjectEducationLevel, subjectEducationLevel) || other.subjectEducationLevel == subjectEducationLevel)&&(identical(other.subjectDiscipline, subjectDiscipline) || other.subjectDiscipline == subjectDiscipline)&&(identical(other.subjectWorkExperience, subjectWorkExperience) || other.subjectWorkExperience == subjectWorkExperience)&&(identical(other.topic, topic) || other.topic == topic)&&(identical(other.goal, goal) || other.goal == goal)&&(identical(other.role, role) || other.role == role));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,email,lastName,createdAt,queryId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,topic,goal,role);
+int get hashCode => Object.hash(runtimeType,userId,email,lastName,createdAt,queryId,queryDate,queryText,sourceDiscipline,subjectEducationLevel,subjectDiscipline,subjectWorkExperience,topic,goal,role);
 
 @override
 String toString() {
-  return 'UserQueryView(userId: $userId, email: $email, lastName: $lastName, createdAt: $createdAt, queryId: $queryId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, topic: $topic, goal: $goal, role: $role)';
+  return 'UserQueryView(userId: $userId, email: $email, lastName: $lastName, createdAt: $createdAt, queryId: $queryId, queryDate: $queryDate, queryText: $queryText, sourceDiscipline: $sourceDiscipline, subjectEducationLevel: $subjectEducationLevel, subjectDiscipline: $subjectDiscipline, subjectWorkExperience: $subjectWorkExperience, topic: $topic, goal: $goal, role: $role)';
 }
 
 
@@ -297,7 +301,7 @@ abstract mixin class _$UserQueryViewCopyWith<$Res> implements $UserQueryViewCopy
   factory _$UserQueryViewCopyWith(_UserQueryView value, $Res Function(_UserQueryView) _then) = __$UserQueryViewCopyWithImpl;
 @override @useResult
 $Res call({
- int userId, String email, String lastName, DateTime? createdAt, int queryId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String topic, String goal, String role
+ int userId, String email, String lastName, DateTime? createdAt, int queryId, DateTime? queryDate, String queryText, String sourceDiscipline, String subjectEducationLevel, String subjectDiscipline, String subjectWorkExperience, String topic, String goal, String role
 });
 
 
@@ -314,7 +318,7 @@ class __$UserQueryViewCopyWithImpl<$Res>
 
 /// Create a copy of UserQueryView
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? email = null,Object? lastName = null,Object? createdAt = freezed,Object? queryId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? email = null,Object? lastName = null,Object? createdAt = freezed,Object? queryId = null,Object? queryDate = freezed,Object? queryText = null,Object? sourceDiscipline = null,Object? subjectEducationLevel = null,Object? subjectDiscipline = null,Object? subjectWorkExperience = null,Object? topic = null,Object? goal = null,Object? role = null,}) {
   return _then(_UserQueryView(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as int,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
@@ -326,6 +330,7 @@ as DateTime?,queryText: null == queryText ? _self.queryText : queryText // ignor
 as String,sourceDiscipline: null == sourceDiscipline ? _self.sourceDiscipline : sourceDiscipline // ignore: cast_nullable_to_non_nullable
 as String,subjectEducationLevel: null == subjectEducationLevel ? _self.subjectEducationLevel : subjectEducationLevel // ignore: cast_nullable_to_non_nullable
 as String,subjectDiscipline: null == subjectDiscipline ? _self.subjectDiscipline : subjectDiscipline // ignore: cast_nullable_to_non_nullable
+as String,subjectWorkExperience: null == subjectWorkExperience ? _self.subjectWorkExperience : subjectWorkExperience // ignore: cast_nullable_to_non_nullable
 as String,topic: null == topic ? _self.topic : topic // ignore: cast_nullable_to_non_nullable
 as String,goal: null == goal ? _self.goal : goal // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable

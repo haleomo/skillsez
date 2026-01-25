@@ -28,6 +28,9 @@ abstract class QueryProfileRecord with _$QueryProfileRecord {
     /// The primary discipline or field of study for the subject
     required String subjectDiscipline,
     
+    /// The subject's relevant work experience
+    required String subjectWorkExperience,
+    
     /// The specific topic or skill to be learned
     required String topic,
     

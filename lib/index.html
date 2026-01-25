@@ -181,6 +181,22 @@
         </div>
     </div>
 
+    <!-- Saved Plans Modal -->
+    <div id="savedPlansModal" class="modal" style="display:none;">
+        <div class="modal-content saved-plans-modal">
+            <h2>Select a saved plan to load it</h2>
+            <p>Saved Plans for <span id="savedPlansUserEmail" class="savedPlansEmail"></span></p>
+            <div id="savedPlansBody">
+                <div id="savedPlansList" class="saved-plans-list"></div>
+                <div id="savedPlansEmpty" class="saved-plans-empty" style="display:none;">No saved plans found.</div>
+                <div id="savedPlansError" class="saved-plans-error" style="display:none;"></div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-decline" id="closeSavedPlansBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Debug: Manual trigger button (remove in production) 
     <button id="debugShowRegistration" style="position: fixed; bottom: 10px; right: 10px; z-index: 3000; padding: 10px; background: #01589B; color: white; border: none; border-radius: 5px; cursor: pointer;">
         Show Registration

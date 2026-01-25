@@ -84,7 +84,15 @@ Future<Response> onRequest(RequestContext context) async {
         INSERT INTO query_profile 
         (user_id, query_text, source_discipline, subject_education_level, 
         subject_work_experience, subject_discipline, topic, goal, role) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+        query_text = VALUES(query_text),
+        source_discipline = VALUES(source_discipline),
+        subject_education_level = VALUES(subject_education_level),
+        subject_work_experience = VALUES(subject_work_experience),
+        subject_discipline = VALUES(subject_discipline),
+        query_date = CURRENT_DATE,
+        id = LAST_INSERT_ID(id)''',
         [userId, queryText, sourceDiscipline ?? '', subjectEducationLevel ?? '', 
         subjectWorkExperience ?? '', subjectDiscipline ?? '', topic, goal ?? '', role ?? ''],
       );

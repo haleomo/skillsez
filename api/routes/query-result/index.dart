@@ -63,13 +63,16 @@ Future<Response> onRequest(RequestContext context) async {
     await db.initialize();
 
     try{
-      print('Inserting query result in database');
-      // Insert query result in database
+      // Insert or update query result in database using UPSERT
       final resultId = await db.insert(
         '''
         INSERT INTO query_result 
-        (query_result_nickname, query_id, result_text) 
-        VALUES (?, ?, ?)''',
+        (query_result_nickname, query_id, result_text, result_date) 
+        VALUES (?, ?, ?, CURRENT_DATE)
+        ON DUPLICATE KEY UPDATE
+        result_text = VALUES(result_text),
+        result_date = CURRENT_DATE,
+        id = LAST_INSERT_ID(id)''',
         [queryResultNickname, queryProfileId, resultText],
       );
 

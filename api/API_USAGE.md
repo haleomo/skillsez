@@ -131,7 +131,79 @@ GEMINI_API_KEY=your_actual_gemini_api_key_here
 
 2. Start the server:
 ```bash
-dart run bin/server.dart
+./start-frog.sh
+```
+Or with hot reload during development:
+```bash
+dart_frog dev
 ```
 
 The API will be available at `http://localhost:8080`.
+
+## User Registration & Authentication
+
+Users must be registered before generating learning plans.
+
+### POST `/user`
+Register a new user or update existing user (upsert by email).
+
+#### Request Body
+```json
+{
+  "email": "user@example.com",
+  "lastName": "Smith"
+}
+```
+
+#### Response (200)
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "email": "user@example.com",
+    "lastName": "Smith",
+    "createdAt": "2024-01-15T10:00:00.000Z"
+  }
+}
+```
+
+### GET `/user/[id]`
+Retrieve user details by ID.
+
+#### Response (200)
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "email": "user@example.com",
+    "lastName": "Smith",
+    "createdAt": "2024-01-15T10:00:00.000Z"
+  }
+}
+```
+
+### PUT `/user/[id]`
+Update user email and/or last name.
+
+#### Request Body
+```json
+{
+  "email": "newemail@example.com",
+  "lastName": "NewLastName"
+}
+```
+
+#### Response (200)
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "email": "newemail@example.com",
+    "lastName": "NewLastName",
+    "createdAt": "2024-01-15T10:00:00.000Z"
+  }
+}
+```

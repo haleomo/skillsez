@@ -5,7 +5,7 @@ This document describes all the API routes for managing users, query profiles, a
 ## User Endpoints
 
 ### POST `/user`
-Creates a new user in the database.
+Creates a new user in the database. Uses upsert logic (INSERT ... ON DUPLICATE KEY UPDATE) based on email, so posting the same email multiple times will update the existing user.
 
 **Request Body:**
 ```json
@@ -15,14 +15,15 @@ Creates a new user in the database.
 }
 ```
 
-**Response (201):**
+**Response (200):**
 ```json
 {
   "success": true,
   "data": {
     "id": 1,
     "email": "user@example.com",
-    "lastName": "Smith"
+    "lastName": "Smith",
+    "createdAt": "2024-01-15T10:00:00.000Z"
   }
 }
 ```
@@ -57,33 +58,67 @@ Retrieves a user by ID.
 
 ---
 
+### PUT `/user/[id]`
+Updates a user's email and/or last name.
+
+**Request Body:**
+```json
+{
+  "email": "newemail@example.com",
+  "lastName": "NewLastName"
+}
+```
+Note: At least one of `email` or `lastName` is required.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "email": "newemail@example.com",
+    "lastName": "NewLastName",
+    "createdAt": "2024-01-15T10:00:00.000Z"
+  }
+}
+```
+
+**Error Responses:**
+- `404`: User not found
+- `400`: Invalid user ID format or no fields to update
+- `400`: Invalid JSON format
+- `500`: Internal server error
+
+---
+
 ## Query Profile Endpoints
 
 ### POST `/query-profile`
-Creates a new query profile in the database.
+Creates a new query profile in the database. Uses upsert logic based on userId and topic.
 
 **Request Body:**
 ```json
 {
   "userId": 1,
-  "queryText": "Learning plan for Flutter",
-  "sourceDiscipline": "Software Engineering",
+  "sourceExpertDiscipline": "Software Engineering",
   "subjectEducationLevel": "Bachelor's Degree",
   "subjectDiscipline": "Computer Science",
+  "subjectWorkExperience": "2 years web development",
   "topic": "Flutter Mobile Development",
   "goal": "career advancement",
   "role": "mobile developer"
 }
 ```
 
-**Response (201):**
+**Response (200):**
 ```json
 {
   "success": true,
   "data": {
     "id": 1,
     "userId": 1,
-    "topic": "Flutter Mobile Development"
+    "topic": "Flutter Mobile Development",
+    "queryDate": "2024-01-15T10:30:00.000Z"
   }
 }
 ```
@@ -106,10 +141,10 @@ Retrieves a query profile by ID.
     "id": 1,
     "userId": 1,
     "queryDate": "2024-01-15T10:30:00.000Z",
-    "queryText": "Learning plan for Flutter",
-    "sourceDiscipline": "Software Engineering",
+    "sourceExpertDiscipline": "Software Engineering",
     "subjectEducationLevel": "Bachelor's Degree",
     "subjectDiscipline": "Computer Science",
+    "subjectWorkExperience": "2 years web development",
     "topic": "Flutter Mobile Development",
     "goal": "career advancement",
     "role": "mobile developer"
@@ -138,10 +173,10 @@ Retrieves all query profiles for a specific user.
         "id": 2,
         "userId": 1,
         "queryDate": "2024-01-15T12:00:00.000Z",
-        "queryText": "Latest query",
-        "sourceDiscipline": "Software Engineering",
+        "sourceExpertDiscipline": "Software Engineering",
         "subjectEducationLevel": "Bachelor's Degree",
         "subjectDiscipline": "Computer Science",
+        "subjectWorkExperience": "2 years web development",
         "topic": "Dart Backend Development",
         "goal": "skill development",
         "role": "backend developer"
@@ -150,10 +185,10 @@ Retrieves all query profiles for a specific user.
         "id": 1,
         "userId": 1,
         "queryDate": "2024-01-15T10:30:00.000Z",
-        "queryText": "Learning plan for Flutter",
-        "sourceDiscipline": "Software Engineering",
+        "sourceExpertDiscipline": "Software Engineering",
         "subjectEducationLevel": "Bachelor's Degree",
         "subjectDiscipline": "Computer Science",
+        "subjectWorkExperience": "2 years web development",
         "topic": "Flutter Mobile Development",
         "goal": "career advancement",
         "role": "mobile developer"
@@ -172,7 +207,7 @@ Retrieves all query profiles for a specific user.
 ## Query Result Endpoints
 
 ### POST `/query-result`
-Creates a new query result (learning plan) in the database.
+Creates a new query result (learning plan) in the database. Uses upsert logic based on queryId and nickname.
 
 **Request Body:**
 ```json
@@ -183,14 +218,15 @@ Creates a new query result (learning plan) in the database.
 }
 ```
 
-**Response (201):**
+**Response (200):**
 ```json
 {
   "success": true,
   "data": {
     "id": 1,
     "queryId": 1,
-    "nickname": "Flutter Learning Path"
+    "queryResultNickname": "Flutter Learning Path",
+    "resultDate": "2024-01-15T10:35:00.000Z"
   }
 }
 ```
@@ -289,15 +325,21 @@ Retrieves all user-query-result records from the `user_query_result_view`, combi
     "count": 2,
     "userQueryResults": [
       {
+        "userId": 1,
         "email": "user@example.com",
         "lastName": "Smith",
+        "queryId": 2,
+        "resultId": 2,
         "queryResultNickname": "Latest Learning Plan",
         "resultText": "# Advanced Dart Patterns...",
         "resultDate": "2024-01-15T12:05:00.000Z"
       },
       {
+        "userId": 1,
         "email": "user@example.com",
         "lastName": "Smith",
+        "queryId": 1,
+        "resultId": 1,
         "queryResultNickname": "Flutter Learning Path",
         "resultText": "# Comprehensive Flutter Learning Plan...",
         "resultDate": "2024-01-15T10:35:00.000Z"

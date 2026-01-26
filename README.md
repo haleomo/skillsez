@@ -21,14 +21,14 @@ This project follows a modular, full-stack architecture with four main component
   - Rate limiting and API management
 
 ### 2. **Web Application** (`/lib`)
-- **Technology**: JASPR (Server-Side Rendered)
-- **Purpose**: SEO-friendly public website
+- **Technology**: Vanilla JavaScript, HTML, CSS
+- **Purpose**: Interactive client-side web interface
 - **Responsibilities**:
-  - Landing pages and marketing content
-  - Blog and educational resources
-  - Server-rendered skill plan views for SEO
-  - User registration and authentication flows
-  - Responsive web interface
+  - User registration and profile management
+  - Learning plan generation form
+  - Saved plans management and retrieval
+  - Learning plan display and printing
+  - Responsive web interface with cookie-based sessions
 
 ### 3. **Mobile Application** (`/mobile_app`)
 - **Technology**: Flutter
@@ -52,57 +52,72 @@ This project follows a modular, full-stack architecture with four main component
 
 ## Technology Stack
 
-- **Language**: Dart
-- **Backend Framework**: Dart Frog
-- **Web Framework**: JASPR (Server-Side Rendering)
-- **Mobile Framework**: Flutter
+- **Backend**: Dart Frog REST API
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Database**: MySQL 8.0+
 - **AI Integration**: Google Gemini AI
-- **Package Management**: Dart Pub
+- **Shared Models**: Dart (Freezed + JSON serialization)
+- **Mobile**: Flutter (placeholder for future development)
 
 ## Key Features
 
-### Core Functionality
-- **AI-Powered Skill Planning**: Generate comprehensive learning plans using Gemini AI
-- **Personalized Recommendations**: Tailored content based on user background and goals
-- **Progress Tracking**: Monitor learning milestones and achievements
-- **Resource Curation**: AI-curated learning materials, courses, and tutorials
-- **Time Management**: Realistic timelines based on user availability
+### Current Implementation
+- **User Registration Modal**: Automatic registration dialog on first visit with email/name capture
+- **AI-Powered Skill Planning**: Generate personalized learning plans using Google Gemini AI
+- **Learning Plan Forms**: Structured input for skill level, discipline, background, and learning goals
+- **Plan Generation**: AI creates comprehensive plans with objectives, resources, timeline, and assessment methods
+- **Saved Plans**: Users can name and save generated plans to database
+- **Plan History**: View all previously saved learning plans organized by date
+- **Profile Management**: Edit email and last name in user account
+- **Plan Display**: Render AI-generated markdown content with proper formatting
+- **Plan Printing**: Export learning plans to PDF/print via browser
 
-### Advanced Features
-- **Multi-Platform Support**: Seamless experience across web and mobile
-- **SEO Optimization**: Server-rendered content for better discoverability
-- **Offline Access**: View skill plans without internet connection (mobile)
-- **Social Features**: Share plans and progress with others
-- **Analytics**: Track learning patterns and optimize recommendations
+### Infrastructure
+- **UPSERT Operations**: Duplicate prevention via database unique constraints
+- **Cookie-Based Sessions**: 365-day persistent user sessions
+- **CORS-Enabled API**: Global CORS headers for cross-origin requests
+- **Database Views**: Combined user-query-result data for efficient retrieval
 
 ## Project Structure
 
 ```
 skills-ez/
-├── api/                    # Dart Frog API Server
-│   ├── routes/            # API endpoints
-│   └── test/              # API tests
+├── api/                           # Dart Frog API Server
+│   ├── routes/                    # REST API endpoints
+│   │   ├── user/                  # User CRUD (create, read, update)
+│   │   ├── query-profile/         # Learning plan query endpoints
+│   │   ├── query-result/          # Saved learning plan endpoints
+│   │   ├── views/                 # Database view endpoints
+│   │   └── learning-plan/         # Gemini AI generation
+│   ├── services/                  # Business logic (AI service)
+│   ├── lib/database_service.dart  # MySQL connection manager
+│   ├── start-frog.sh              # Dev startup script
+│   └── .env                       # Environment config (create this)
 │
-├── lib/                   # JASPR Web Application
-│   ├── components/        # Reusable UI components
-│   ├── pages/            # Web pages/routes
-│   ├── constants/        # Web-specific constants
-│   ├── main.server.dart  # Server entry point
-│   └── main.client.dart  # Client hydration entry
+├── lib/                           # Web Frontend (static)
+│   ├── index.html                 # Main page with modals
+│   ├── main.js                    # Application logic
+│   ├── styles.css                 # Styling
+│   ├── assets/                    # Images and static assets
+│   ├── pages/                     # HTML pages (about, help)
+│   └── data/                      # Static data files
 │
-├── mobile_app/           # Flutter Mobile App
-│   ├── lib/              # Mobile app source
-│   ├── android/          # Android configuration
-│   ├── ios/              # iOS configuration
-│   ├── linux/            # Linux desktop
-│   ├── macos/            # macOS desktop
-│   ├── windows/          # Windows desktop
-│   └── web/              # Web build
+├── shared/                        # Shared Dart Models Package
+│   └── lib/src/models/            # Freezed data models
+│       ├── user.dart
+│       ├── query_profile_record.dart
+│       └── user_query_result_view.dart
 │
-└── shared/               # Shared Dart Package
-    ├── lib/              # Shared source code
-    │   └── src/          # Implementation files
-    └── test/             # Shared tests
+├── mobile_app/                    # Flutter Mobile (Placeholder)
+│   └── lib/main.dart              # Stub implementation
+│
+├── sql/                           # Database Schema
+│   └── create-tables.sql          # Tables and views
+│
+└── docs/                          # Documentation
+    ├── SETUP_GUIDE.md             # Development setup
+    ├── API_ROUTES_SUMMARY.md      # API endpoint reference
+    └── DATABASE_API.md            # Detailed API docs
 ```
 
 ## Getting Started
@@ -123,21 +138,17 @@ skills-ez/
 
 2. **Install dependencies**
    ```bash
+   # Install shared package dependencies (used by API)
+   cd shared
+   dart pub get
+   dart run build_runner build --delete-conflicting-outputs
+   
    # Install API dependencies
-   cd api
+   cd ../api
    dart pub get
    
-   # Install shared package dependencies
-   cd ../shared
-   dart pub get
-   
-   # Install web app dependencies
-   cd ..
-   dart pub get
-   
-   # Install mobile app dependencies
-   cd mobile_app
-   flutter pub get
+   # Web frontend has no build step (vanilla JS)
+   # Mobile app (placeholder - no setup needed yet)
    ```
 
 3. **Configure environment variables**
@@ -177,51 +188,62 @@ skills-ez/
 
 ### Running the Applications
 
-#### API Server
+#### API Server (Development)
+Set environment variables and start the server:
 ```bash
 cd api
-dart run build_runner build
+./start-frog.sh    # Loads .env and runs dart_frog dev
+# OR manually:
+# export GEMINI_API_KEY=your_key DB_HOST=localhost DB_USER=rob ...
+# dart_frog dev
+```
+API server runs on: `http://localhost:8080` with hot reload enabled
+
+#### API Server (Production)
+```bash
+cd api
+# Compile to executable
+dart compile exe bin/server.dart -o server
+# Or run directly with env vars set
+export GEMINI_API_KEY=...
 dart run bin/server.dart
-# Server runs on http://localhost:8080
 ```
 
-#### Web Server (Mac)
-# Development
-$ cd lib (run this in the lib directory so the paths are all correct.)
-$ python3 -m http.server
-Serving HTTP on :: port 8000 (http://[::]:8000/) ...
+#### Web Server (Development)
+```bash
+cd lib
+python3 -m http.server 8000
+# Open: http://localhost:8000
+```
+Web frontend automatically calls API at `localhost:8080` (dev) or `192.168.102.194:8081` (prod)
 
-#### MySQL Database Setup
-# Launch MySQL as a background service (persists across restarts)
-install mysql on macos brew
+#### Database Setup
 
+**macOS (Homebrew)**
+```bash
+# Install MySQL
+brew install mysql
+
+# Start service (persists across restarts)
 brew services start mysql
 
-# Check service status
-brew services list
+# Secure installation
+mysql_secure_installation
 
-# Start MySQL in the foreground
-mysql.server start
+# Connect and create database
+mysql -u root -p
+CREATE DATABASE skills_ez;
+CREATE USER 'skills-ez'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON skills_ez.* TO 'skills-ez'@'localhost';
+FLUSH PRIVILEGES;
+exit
+
+# Load schema
+mysql -u skills-ez -p skills_ez < sql/create-tables.sql
 
 # Stop MySQL when done
-mysql.server stop
-
-# Run mysql_secure_installation
-## Follow the prompts in the terminal to:
-### Set a password for the root user.
-### Remove anonymous users.
-### Disallow remote root login.
-### Remove the test database.
-### Reload privilege tables. 
-
-Connect to MySQL
-mysql -u root (rob4MySQL77)
-
-After securing the installation, you can connect to the MySQL server using the following command and entering the password you just set: 
-mysql -u root -p
-
-# Stop MySQL
 brew services stop mysql
+```
 
 #### Database Schema
 
@@ -304,99 +326,27 @@ When making changes to shared models or business logic:
 4. Hot reload available during development
 
 ### Web Development
-1. Add/update components in `lib/components/`
-2. Create pages in `lib/pages/`
-3. Server-side rendering ensures SEO optimization
-4. Test with `jaspr serve`
+1. Edit `lib/index.html` for markup and modals
+2. Edit `lib/main.js` for application logic (registration, saved plans, API calls)
+3. Edit `lib/styles.css` for styling
+4. No build step required—refresh browser to see changes
+5. API calls route through `getApiUrl()` which respects `window.ENVIRONMENT`
 
 ### Mobile Development
-1. Use Flutter best practices
-2. Import shared package for data models
-3. Hot reload available during development
-4. Test on multiple platforms
+1. Currently a placeholder with "Hello World" example
+2. Future: Use Flutter best practices
+3. Future: Import shared package for data models
 
-## API Integration
+## Additional Resources
 
-All API calls use the shared client interface:
-
-```dart
-import 'package:shared/shared.dart';
-
-final client = SkillEZApiClient(baseUrl: 'https://api.skillez.app');
-
-// Generate a skill plan
-final plan = await client.generateSkillPlan(
-  skill: 'Flutter Development',
-  currentLevel: 'Beginner',
-  targetLevel: 'Advanced',
-  timeCommitment: '10 hours/week',
-);
-```
-
-## Adding Query and Result Save Routes to API
-
-Prompt: Create a route in the API to save the query profile, query results, and user into the database. Also provide routes to retrieve the user, query profile, and query results. Also, provide routes to retrive a list of user-query, and user-query-results using the views. The tables and views are defined in the file: /Users/robnelson/projects/flutter_project/skills-ez/sql/create-tables.sql
-
-Now I'll create the API with database support. I'll:
-
-  Update pubspec.yaml to include MySQL/database package
-  Create a database service
-  Create routes for user, query_profile, and query_result CRUD operations
-  Create routes for retrieving from views
-
-Now I'll create a database service:
-
-Created database_service.dart
-
-Now I'll create models for the database operations. First, let me extend the shared package with database models:
-
-Read query_profile.dart, lines 1 to 40
-
-Now I'll create additional models for database records. First, let me create a User model:
-
-Now update the shared package's main export file:
-
-Edited
-shared.dart+5-0
-Now let me generate the Freezed files. First, let me check the pubspec.yaml for shared:
-
-Read pubspec.yaml
-
-Good, the dependencies are there. Now let me run the build_runner:
-
-cd /Users/robnelson/projects/flutter_project/skills-ez/shared && dart run build_runner build --delete-conflicting-outputs
-
-## Required Tables
-mysql -u root -p -e "DROP DATABASE IF EXISTS skills_ez; CREATE DATABASE skills_ez;"
-mysql -u root -p skills_ez --database=skills_ez < sql/create-tables.sql
-
-## Contributing
-
-1. Create a feature branch
-2. Make your changes
-3. Run all tests across projects
-4. Submit a pull request
-
-## Testing
-
-```bash
-# Test all projects
-./scripts/test_all.sh
-
-# Test individual projects
-cd api && dart test
-cd shared && dart test
-cd mobile_app && flutter test
-```
+- [SETUP_GUIDE.md](SETUP_GUIDE.md) – Detailed development and production setup
+- [API_ROUTES_SUMMARY.md](API_ROUTES_SUMMARY.md) – Quick API endpoint reference
+- [DATABASE_API.md](api/DATABASE_API.md) – Full API documentation with examples
 
 ## License
 
-[Choose appropriate license]
-
-## Contact
-
-[Contact information or link to issue tracker]
+MIT
 
 ---
 
-**Built with ❤️ using Dart, Flutter, JASPR, and Dart Frog**
+**Built with Dart, Dart Frog, and Google Gemini AI**

@@ -1,87 +1,51 @@
-# Skills-Ez: Complete Setup Guide
+# Skills-Ez: Setup & Operations Guide
 
-## What's Been Implemented
+This guide reflects the current application state: Dart Frog API with MySQL backend, static web UI in `lib/`, saved plans, profile editing (PUT /user/[id]), and CORS handled globally.
 
-### 1. Database API Routes ✅
-Created complete CRUD operations for all database tables:
+## Current API Surface
 
-**User Management:**
-- Create user: `POST /user/create`
-- Get user by ID: `GET /user/[id]`
+**User**
+- `POST /user` – upsert by email (returns `id`)
+- `GET /user/[id]`
+- `PUT /user/[id]` – update `email`, `lastName`
 
-**Query Profile Management:**
-- Create profile: `POST /query-profile/create`
-- Get profile by ID: `GET /query-profile/[id]`
-- Get user's profiles: `GET /query-profile/user/[userId]`
+**Query Profile**
+- `POST /query-profile` – upsert (userId + topic/goal/role unique)
+- `GET /query-profile/[id]`
+- `GET /query-profile/user/[userId]`
 
-**Query Result Management:**
-- Save learning plan: `POST /query-result/create`
-- Get result by ID: `GET /query-result/[id]`
+**Query Result (Learning Plan)**
+- `POST /query-result` – upsert by (query_id, nickname)
+- `GET /query-result/[id]`
 
-**View Endpoints:**
-- User-query data: `GET /views/user-query`
-- User-query-result data: `GET /views/user-query-result`
+**Views**
+- `GET /views/user-query`
+- `GET /views/user-query-result` (includes `resultId`, `queryId`)
 
-### 2. User Registration Popup ✅
-Implemented a modal that appears on first page visit:
+**AI Generation**
+- `POST /learning-plan/generate` – Gemini-powered plan
 
-**Features:**
-- Shows automatically if no registration cookie exists
-- Two options: "Save" (register) or "Decline" (anonymous)
-- Integrates with `/user/create` API endpoint
-- Creates browser cookie for 365-day persistence
-- Modern, animated design with backdrop blur
-
-**Cookie Data:**
-- Registered: `{email, lastName, userId}`
-- Declined: `{email: "declined@skills-ez.me", lastName: "Declined"}`
-
-### 3. Shared Models ✅
-Created Freezed models for database entities:
-- `User` - User records
-- `QueryProfileRecord` - Query profile records
-- `QueryResult` - Learning plan results
-- `UserQueryView` - Combined user+query data
-- `UserQueryResultView` - Combined user+query+result data
-
-### 4. Database Service ✅
-Singleton service managing MySQL connections:
-- Auto-connects using environment variables
-- Supports connection pooling
-- Error handling and logging
-
-## Quick Start
-
-### Prerequisites
-- Dart SDK 3.10.0+
+## Prerequisites
+- Dart SDK 3.10+
 - MySQL 8.0+
 - Gemini API key
 
-### Step 1: Database Setup
+## Database Setup
 
 ```bash
-# Create database
 mysql -u root -p
 CREATE DATABASE skills_ez;
 exit
 
-# Create user and run schema
-mysql -u root -p < sql/CREATE\ USER\ \'skills-ez\'@\'localhost\'\ IDEN.sql
+# Create user and load schema
+mysql -u root -p < sql/CREATE\ USER\ 'skills-ez'@'localhost'\ IDEN.sql
 mysql -u root -p skills_ez < sql/create-tables.sql
 ```
 
-### Step 2: Environment Configuration
+## Environment Configuration
 
-```bash
-# Copy example env file
-cd api
-cp .env.example .env
+Create `api/.env` (or export env vars before start):
 
-# Edit .env with your credentials
-nano .env
-```
-
-Required variables:
 ```env
 GEMINI_API_KEY=your_gemini_api_key
 DB_HOST=localhost
@@ -91,113 +55,83 @@ DB_PASSWORD=your_mysql_password
 DB_NAME=skills_ez
 ```
 
-### Step 3: Install Dependencies
+> Tip: You can also use `api/start-frog.sh` (sets env and runs `dart_frog dev`). Update credentials in that script for your machine.
+
+## Install Dependencies & Codegen
 
 ```bash
-# Install shared package dependencies
+# shared models
 cd shared
 dart pub get
 dart run build_runner build --delete-conflicting-outputs
 
-# Install API dependencies
+# API
 cd ../api
 dart pub get
 ```
 
-### Step 4: Start the API Server
+## Run Locally
+
+### API (dev)
 
 ```bash
 cd api
-dart_frog dev
+./start-frog.sh    # sets env + dart_frog dev
+# or: dart_frog dev
 ```
 
-Server runs on: `http://localhost:8080`
+Serves at `http://localhost:8080` with CORS enabled for all origins.
 
-### Step 5: Start the Web Server
+### Web UI (static)
 
 ```bash
-# In project root
 cd lib
 python3 -m http.server 8000
 ```
 
-Web app runs on: `http://localhost:8000`
+Open `http://localhost:8000`. The UI will call the API at `localhost:8080` (dev) or `192.168.102.194:8081` (prod) depending on `window.ENVIRONMENT`.
+
+## Key Frontend Flows
+- Registration modal creates `skillsez_user` cookie `{ email, lastName, userId }` (or a declined marker).
+- Saved plans modal lists plans via `/views/user-query-result`, filtered by email; selecting loads query profile and displays plan.
+- Edit Profile uses `PUT /user/[id]` and updates the cookie.
+
+## Production Notes
+- Run API without hot-reload:
+  ```bash
+  cd api
+  dart run bin/server.dart
+  # or compile: dart compile exe bin/server.dart -o server
+  # set env (GEMINI_API_KEY, DB_*) before launching
+  ```
+- Frontend: serve `lib/` static assets via nginx/Apache/S3; set `window.ENVIRONMENT='prod'` and point DNS to your API host.
+- CORS: middleware allows all origins by default; tighten in `routes/_middleware.dart` if needed.
+- Systemd/example: create a service that exports env vars then runs the compiled server.
 
 ## Testing
+- Shared models: `cd shared && dart test` (if present)
+- API: `cd api && dart test` (or targeted route tests)
+- Smoke test: generate a plan from UI, save it, reopen from Saved Plans, edit profile, confirm cookie updates.
 
-### Automated API Tests
-
-```bash
-# Run the test script
-./test-api.sh
-```
-
-This tests all endpoints and creates sample data.
-
-### Manual Testing
-
-1. **Test Registration Modal:**
-   - Clear browser cookies
-   - Visit `http://localhost:8000`
-   - Modal should appear automatically
-   - Try both "Save" and "Decline"
-
-2. **Test API Endpoints:**
-   ```bash
-   # Create user
-   curl -X POST http://localhost:8080/user/create \
-     -H "Content-Type: application/json" \
-     -d '{"email":"test@example.com","lastName":"Test"}'
-   
-   # Get user (replace 1 with actual ID)
-   curl http://localhost:8080/user/1
-   ```
-
-3. **Test Learning Plan Generation:**
-   - Fill out the form on the homepage
-   - Click "Generate learning plan"
-   - Check that plan displays correctly
-
-## Project Structure
+## Project Structure (high-level)
 
 ```
 skills-ez/
-├── api/                          # Dart Frog API
-│   ├── lib/
-│   │   └── database_service.dart # Database connection
-│   ├── routes/
-│   │   ├── user/                 # User endpoints
-│   │   ├── query-profile/        # Query profile endpoints
-│   │   ├── query-result/         # Query result endpoints
-│   │   ├── views/                # View endpoints
-│   │   └── learning-plan/        # AI generation
-│   ├── services/
-│   │   └── learning_plan_service.dart
-│   ├── .env                      # Environment config (create this)
-│   └── DATABASE_API.md           # Detailed API docs
-├── shared/                       # Shared models package
-│   └── lib/src/models/           # Freezed models
-├── lib/                          # Web frontend
-│   ├── index.html                # Main page with registration modal
-│   ├── main.js                   # JS with registration logic
-│   └── styles.css                # Styles including modal
-├── sql/                          # Database schema
-│   └── create-tables.sql
-├── test-api.sh                   # Automated API tests
-├── API_ROUTES_SUMMARY.md         # Quick API reference
-└── REGISTRATION.md               # Registration system docs
+├─ api/                # Dart Frog API
+│  ├─ routes/          # REST + view endpoints
+│  ├─ services/        # Gemini integration
+│  ├─ lib/             # database_service
+│  └─ start-frog.sh    # dev startup (sets env)
+├─ shared/             # Freezed models (path dependency)
+├─ lib/                # Static web UI (index.html, main.js, styles.css)
+├─ sql/                # Schema and views
+└─ test-api.sh         # API smoke script
 ```
 
-## How It Works
-
-### User Registration Flow
-
-1. **Page Load:** `checkUserRegistration()` checks for cookie
-2. **No Cookie:** Registration modal displays
-3. **User Saves:**
-   - Form data sent to `POST /user/create`
-   - User saved to database
-   - Cookie created with user ID
+## Notes & Tips
+- Ensure MySQL user in `DB_USER` has rights on `skills_ez`.
+- If CORS errors occur, confirm API is reachable and middleware is loaded.
+- After model changes in `shared/`, rerun build_runner with `--delete-conflicting-outputs`.
    - Modal closes
 4. **User Declines:**
    - Cookie created with decline values

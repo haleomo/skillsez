@@ -197,6 +197,27 @@
         </div>
     </div>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Edit Profile</h2>
+            <form id="editProfileForm">
+                <label for="editEmail">
+                    <span>Email</span>
+                    <input type="email" id="editEmail" name="email" required>
+                </label>
+                <label for="editLastName">
+                    <span>Last Name</span>
+                    <input type="text" id="editLastName" name="lastName" required>
+                </label>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-confirm">Save Changes</button>
+                    <button type="button" class="btn-decline" id="closeEditProfileBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Debug: Manual trigger button (remove in production) 
     <button id="debugShowRegistration" style="position: fixed; bottom: 10px; right: 10px; z-index: 3000; padding: 10px; background: #01589B; color: white; border: none; border-radius: 5px; cursor: pointer;">
         Show Registration

@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS skillsez_user (
     created_at DATE DEFAULT (CURRENT_DATE)
 );
 
-ALTER TABLE skillsez_user ADD CONSTRAINT UNI_USER_EMAIL UNIQUE (email);
+ALTER TABLE skillsez_user ADD CONSTRAINT UNI_USER_EMAIL UNIQUE (email, last_name);
 
 CREATE TABLE IF NOT EXISTS query_profile (
     id INT NOT NULL AUTO_INCREMENT KEY,
@@ -35,8 +35,9 @@ CREATE TABLE IF NOT EXISTS query_profile (
     goal VARCHAR(100) NOT NULL,
     role VARCHAR(100) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES skillsez_user(id),
-    UNIQUE KEY UNI_QUERY_PROFILE (user_id, topic, goal, role)
 );
+
+ALTER TABLE QUERY_PROFILE ADD CONSTRAINT UNI_QUERY_PROFILE UNIQUE (user_id, source_discipline, subject_discipline, goal, role);
 
 CREATE TABLE IF NOT EXISTS query_result (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

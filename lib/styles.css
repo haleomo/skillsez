@@ -960,7 +960,7 @@ custom-alert {
     }
 
     .brand {
-        display: flex;
+        display: none;
     }
     
     

@@ -948,3 +948,27 @@ custom-alert {
     padding: 1em;
     }
 }
+
+/* respoinsive Brand */
+@media (max-width: 440px) {
+    .brand {
+        display: flex;
+        padding: 0 1.5em;
+        align-items: center;
+        gap: 0.5em;
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+    }
+
+    .brand small {
+        visibility: hidden;
+    }
+
+    .dropbtn {
+        padding: 6px;
+        font-size: 7px;
+    }
+}
+
+/* End of Styles */ 

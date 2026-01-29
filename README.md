@@ -215,7 +215,7 @@ cd lib
 python3 -m http.server 8000
 # Open: http://localhost:8000
 ```
-Web frontend automatically calls API at `localhost:8080` (dev) or `192.168.102.194:8080` (prod)
+Web frontend automatically calls API at `localhost:8080` (dev) or `192.168.102.204:8080` (prod)
 
 #### Database Setup
 

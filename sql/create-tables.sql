@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS query_profile (
     topic VARCHAR(100) NOT NULL,
     goal VARCHAR(100) NOT NULL,
     role VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES skillsez_user(id),
+    FOREIGN KEY (user_id) REFERENCES skillsez_user(id)
 );
 
 ALTER TABLE QUERY_PROFILE ADD CONSTRAINT UNI_QUERY_PROFILE UNIQUE (user_id, source_discipline, subject_discipline, goal, role);

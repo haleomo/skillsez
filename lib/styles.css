@@ -973,6 +973,11 @@ custom-alert {
         display: block; /* Show hamburger on mobile */
     }
 
+    .navbar-menu ul {
+        display: flex; /* Hide full menu on mobile */
+        list-style: none;
+    }
+
     .mobile-header.active {
         display: none;
     }

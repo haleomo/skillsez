@@ -89,6 +89,9 @@ nav {
     position: relative;
 }
 
+.mobile-header {
+    display: none;
+}
 
 nav a {
     display: flex;
@@ -954,13 +957,29 @@ custom-alert {
 }
 
 /* respoinsive Brand */
-@media (max-width: 440px) {
+@media screen and (max-width: 440px) {
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    
     .hamburger {
         display: block; /* Show hamburger on mobile */
     }
 
+    .mobile-header ul {
+        display: flex; /* Show full menu on desktop */
+        list-style: none;
+    }
+
     .brand {
         display: none;
+    }
+
+    .navbar {
+        display: none; /* Hide navbar on mobile */
     }
     
     

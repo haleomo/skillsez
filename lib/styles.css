@@ -177,6 +177,16 @@ nav a:hover {
     font-weight: 600;
 }
 
+/* Desktop styles */
+.hamburger {
+  display: none; /* Hide hamburger on desktop */
+}
+
+.navbar-menu ul {
+  display: flex; /* Show full menu on desktop */
+  list-style: none;
+  /* Add other desktop styles */
+}
 
 /* Hero Section */
 .hero-section {

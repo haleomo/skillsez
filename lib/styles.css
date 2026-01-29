@@ -182,12 +182,6 @@ nav a:hover {
   display: none; /* Hide hamburger on desktop */
 }
 
-.navbar-menu ul {
-  display: flex; /* Show full menu on desktop */
-  list-style: none;
-  /* Add other desktop styles */
-}
-
 /* Hero Section */
 .hero-section {
     padding: 0em 0.5em;
@@ -961,24 +955,15 @@ custom-alert {
 
 /* respoinsive Brand */
 @media (max-width: 440px) {
+    .hamburger {
+        display: block; /* Show hamburger on mobile */
+    }
+
     .brand {
         display: flex;
-        padding: 0 1.5em;
-        align-items: center;
-        gap: 0.5em;
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: 0.2px;
     }
-
-    .brand small {
-        visibility: hidden;
-    }
-
-    .dropbtn {
-        padding: 6px;
-        font-size: 7px;
-    }
+    
+    
 }
 
 /* End of Styles */ 

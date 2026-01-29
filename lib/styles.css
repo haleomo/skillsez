@@ -974,7 +974,7 @@ custom-alert {
     }
 
     .navbar-menu ul {
-        display: flex; /* Hide full menu on mobile */
+        display: none; /* Hide full menu on mobile */
         list-style: none;
     }
 

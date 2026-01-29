@@ -10,15 +10,17 @@
 <body>
     <script>
         // Set environment configuration - change to 'prod' for production
-        window.ENVIRONMENT = 'prod';
+        window.ENVIRONMENT = 'dev'; // 'dev' or 'prod'
     </script>
     <div class="main">
         <header>
-
-            <nav class="mobile-header">
-                <span>Skills Ez</span>
+            <!--    Mobile Header -->
+            <div class="mobile-header" id="mobile-header">
                 <button class="hamburger" id="hamburger-toggle">☰</button>
-                <ul id="navbar-menu">                                
+            </div>
+
+            <nav class="navbar-menu" id="navbar-menu">
+                <ul>                                
                     <li><a href="#" onclick="viewSavedPlans()">Open Saved Plan</a></li>
                     <li><a href="#" onclick="editProfile()">Edit Profile</a></li>
                     <li><a href="pages/about.html">About</a></li>
@@ -26,7 +28,7 @@
                 </ul>
             </nav>
 
-
+            <!-- Desktop Navbar -->
             <nav class="navbar" id="navbar">
                 <div class="brand">
                     <span>Skills Ez</span>

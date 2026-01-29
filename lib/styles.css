@@ -973,9 +973,13 @@ custom-alert {
         display: block; /* Show hamburger on mobile */
     }
 
-    .mobile-header ul {
+    .mobile-header.active {
+        display: none;
+    }
+
+    .mobile-header.active ul {
         display: flex; /* Show full menu on desktop */
-        list-style: none;
+        flex-direction: column;
     }
 
     .navbar {

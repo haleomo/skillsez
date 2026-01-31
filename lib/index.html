@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills Ez AI-crafted learning plans</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
@@ -65,33 +65,75 @@
                 </div>
                 <form id="learningForm">
                     <label for="topic">
-                        <span>What skills or topics do you want to learn?</span>
+                        <div class="field-label">
+                            <span>What skills or topics do you want to learn?</span>
+                                <button type="button" class="help-icon" data-help-key="topic" aria-label="Help for skills or topics">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="topic" name="topic" placeholder="Playing an instrument" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <label for="sourceExpertDiscipline">
-                        <span>Who would you like to ask?</span>
+                        <div class="field-label">
+                            <span>Who would you like to ask?</span>
+                                <button type="button" class="help-icon" data-help-key="sourceExpertDiscipline" aria-label="Help for expert">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="sourceExpertDiscipline" name="sourceExpertDiscipline" placeholder="A Music Teacher" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <label for="subjectEducationLevel">
-                        <span>How much study have you completed? (Recommended for professional development or career advancement)</span>
+                        <div class="field-label">
+                            <span>How much study have you completed? (Recommended for professional development or career advancement)</span>
+                                <button type="button" class="help-icon" data-help-key="subjectEducationLevel" aria-label="Help for education level">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="subjectEducationLevel" name="subjectEducationLevel" placeholder="Bachelor's">
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <label for="subjectDiscipline">
-                        <span>What is your relevant area of study?</span>
+                        <div class="field-label">
+                            <span>What is your relevant area of study?</span>
+                                <button type="button" class="help-icon" data-help-key="subjectDiscipline" aria-label="Help for discipline">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="subjectDiscipline" name="subjectDiscipline" placeholder="HS music class" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <label for="subjectWorkExperience" title="Add your relevant experience with number of years of experience">
-                        <span>What relevant study, hobbies, or work experience do you have?</span>
+                        <div class="field-label">
+                            <span>What relevant study, hobbies, or work experience do you have?</span>
+                                <button type="button" class="help-icon" data-help-key="subjectWorkExperience" aria-label="Help for experience">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="subjectWorkExperience" name="subjectWorkExperience" placeholder="guitar hero video game" title="Add the relevant experience with number of years (e.g., 2 years web development, Novice skier)" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     
-                    <label for="goal">
-                        <span>What do you want to achieve? (e.g., career advancement, general knowledge, interview preparation, make better product, incredible host)</span>
+                    <label for="goal">  
+                        <div class="field-label">
+                            <span>What do you want to achieve? (e.g., career advancement, general knowledge, interview preparation, make better product, incredible host)</span>
+                                <button type="button" class="help-icon" data-help-key="goal" aria-label="Help for goal">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="goal" name="goal" placeholder="Jam with friends" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <label for="role">
-                        <span>What do you want to be? (e.g., planner, engineer, coder, hobbyist)</span> 
+                        <div class="field-label">
+                            <span>What do you want to be? (e.g., planner, engineer, coder, hobbyist)</span> 
+                                <button type="button" class="help-icon" data-help-key="role" aria-label="Help for role">
+                                    <img src="assets/images/question-mark.png" alt="" aria-hidden="true">
+                            </button>
+                        </div>
                         <input type="text" id="role" name="role" placeholder="Interesting hobbyist" required>
+                        <div class="help-banner" aria-live="polite"></div>
                     </label>
                     <button class="submit-btn" type="submit">Generate learning plan</button>
                 </form>

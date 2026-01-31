@@ -543,6 +543,18 @@ footer {
     margin: 0 auto;
 }
 
+.footer-link {
+    color: var(--text-accent-muted);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-bottom: 1.5rem;
+}
+
+.footer-link:hover {
+    color: #fff;
+}
+
 custom-alert {
     padding: 15px;
     margin-bottom: 20px;

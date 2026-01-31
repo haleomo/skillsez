@@ -1,22 +1,38 @@
 [
   {
     "question": "What is Skills Ez About?",
-    "answer": "Skills Ez is a web-based tool that uses AI to create personalized learning plans for acquiring new skills."
+    "answer": "Skills Ez is a web-based tool that uses AI to create personalized learning plans for acquiring new skills. It's intended to help individuals structure their learning journey effectively based on their background, goals, and preferred learning style."
+  },
+  {
+    "question": "If I register, will I get Spam?",
+    "answer": "We all get spam emails, but we respect your privacy and will not share your information. Email registration is only used to save and retrieve your learning plans. Use a fake email address if you have concerns."
   },
   {
     "question": "How do I create a learning plan?",
     "answer": "Simply fill out the form on the home page with your learning profile and the skill you want to acquire, then submit it to generate your personalized plan."
   },
   {
-    "question": "What if I need more help?",
-    "answer": "If you have further questions or need assistance, reach out to our support team via the contact form on the About page."
-  },
-  {
     "question": "Can I save a learning plan?",
-    "answer": "Yes, you can save your learning plan by exporting it to a PDF file which you can review as you need."
+    "answer": "Yes, you can save your learning plan and recall it at a later time. To save your plan, you'll need to register with your email and last name when prompted. After you've created a learning plan, you can click on the <em>Save Plan</em>. You can retrieve your saved plans by clicking on <em>Open Saved Plan</em> in the menu and selecting the plan."
   },
   {
     "question": "Why don't I get a prompt for my e-mail and last name?",
     "answer": "You may have already registered or declined to register and there is a cookie set in your browser. You're required to remove cookies and refresh the page."
+  },
+  {
+    "question": "How is my data used?",
+    "answer": "Your data is used solely to generate your personalized learning plan and to improve our services. We do not share your personal information."
+  },
+  {
+    "question": "Is Skills Ez free to use?",
+    "answer": "Yes, Skills Ez is currently free to use. We may introduce premium features in the future, but the core functionality will remain free."
+  },
+  {
+    "question": "What technologies does Skills Ez use?",
+    "answer": "Skills Ez is built using web technologies such as HTML, CSS, and JavaScript, and it leverages AI models to generate personalized learning plans."
+  },
+  {
+    "question": "What if I need more help?",
+    "answer": "If you have further questions or need assistance, reach out to our support team via the contact form on the About page."
   }
 ]

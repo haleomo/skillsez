@@ -1,9 +1,9 @@
 {
-  "topic": "Name the specific skill or topic you want to learn. Clear examples help the plan stay focused.",
-  "sourceExpertDiscipline": "Describe the type of expert you want guidance from (e.g., 'Music Teacher', 'Senior iOS Engineer').",
-  "subjectEducationLevel": "Share your highest completed education level. This helps with the plan's depth and pacing.",
-  "subjectDiscipline": "Mention your background or field of study so the plan can connect to what you already know.",
-  "subjectWorkExperience": "List any related experience or hobbies and how long you've done them (e.g., '2 years web development').",
-  "goal": "Describe your goal so the plan can prioritize the right outcomes and timeline.",
-  "role": "Share the role or identity you want to grow into. This helps tune projects and skills."
+    "topic": "Name the specific skill or topic you want to learn. Clear examples help the plan stay focused.",
+    "sourceExpertDiscipline": "Describe the type of expert you want guidance from (e.g., 'Music Teacher', 'Senior Engineer', 'Financial Analyst').",
+    "subjectEducationLevel": "Share your highest completed education level. This helps with the plan's depth and pacing.",
+    "subjectDiscipline": "Mention your background or field of study so the plan can connect to what you already know. This should be related education or work experience. This will help tailor the learning experience.",
+    "subjectWorkExperience": "List any related experience or hobbies and how long you've done them (e.g., 'Highschoool Band').",
+    "goal": "Describe your goal so the plan can prioritize the right outcomes and timeline.",
+    "role": "Share the role or identity you want to grow into. This helps tune projects and skills."
 }

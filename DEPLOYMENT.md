@@ -1,8 +1,8 @@
-Setting Index.html to have the correct environment.
+# Setting Index.html to have the correct environment.
 
 Using sed (Linux/Mac):
 
-# In your CI/CD deployment script
+## In your CI/CD deployment script
     sed -i "s/window.ENVIRONMENT = 'dev'/window.ENVIRONMENT = 'prod'/" lib/index.html
 
 Absolutely! I can help you set up GitHub Actions for CI/CD. For your Skills Ez application, we could create workflows to:
@@ -426,7 +426,40 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
 # monitoring in real-time
     sudo journalctl -u mysql.service -f
 
-### Update Profile Failed
+
+### MySQL Performance Monitoring
+
+https://mariadb.com/docs/server/reference/system-tables/performance-schema/performance-schema-overview
+
+# Check if Performance Schema is On
+    SHOW VARIABLES LIKE 'performance_schema';
+    OR
+    SHOW VARIABLES LIKE "perf%";
+
+# To start Edit the /etc/mysql/my.cnf and add the lines
+    [mysqld]
+    performance_schema=ON
+
+# Restart the mysql service
+    sudo systemctl stop mysql
+    sudo systemctl start mysql
+
+    OR 
+    sudo systemctl reload mysql
+
+# check the status of the service
+    sudo systemctl status mysql
+
+# Start a MySQL session
+    mysql -u root -p
+
+# Enable the Performance Scheme 
+    UPDATE performance_schema.setup_consumers SET ENABLED = 'YES';
+    UPDATE performance_schema.setup_instruments SET ENABLED = 'YES', TIMED = 'YES';
+
+
+### Correcting Error Conditions
+## Update Profile Failed
 
 # Interface Error
     [PUT /user/2] Internal server error: MySQLClientException: Can not close connection. Connection state is not in connectionEstablished state
@@ -443,4 +476,3 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
 
 # Solution
     Note in the configuration documents that the database password must by syncronized in the deployment documents. Perhaps also have a procedure for changing the passwords in the database.
-

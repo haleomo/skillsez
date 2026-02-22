@@ -37,16 +37,20 @@ Fast, lightweight, industry-standard
 Great for static files
 Easy SSL/HTTPS setup
 Reverse proxy for your Dart Frog API
+
 2. Caddy
 
 Automatic HTTPS with Let's Encrypt
 Very simple configuration
 Perfect if you want "zero-config" SSL
+
 3. Apache
 
 More features/flexibility
 Heavier than Nginx
 For HTTPS (SSL/TLS), you have options:
+
+
 If you have a domain name:
 
 Use Let's Encrypt (free SSL certificates)
@@ -54,14 +58,17 @@ Nginx + Certbot handles it automatically
 For internal network only:
 
 Use self-signed certificates
+
 Or keep HTTP if it's just local
+
 Quick Setup Guide
 Would you like me to create:
 
-Nginx configuration for your Skills Ez site + API reverse proxy?
-SSL setup instructions with Let's Encrypt (if you have a domain)?
-Systemd service files to auto-start your API server?
-Docker setup (optional, for easier deployment)?
+    Nginx configuration for your Skills Ez site + API reverse proxy?
+    SSL setup instructions with Let's Encrypt (if you have a domain)?
+    Systemd service files to auto-start your API server?
+    Docker setup (optional, for easier deployment)?
+
 Let me know:
 
 Do you have a domain name for this site?
@@ -70,24 +77,25 @@ Are you running this on Linux/Mac?
 I can create the complete Nginx config and deployment setup for your specific situation!
 
 
-SSetting up the NGINX Supported website
-sudo mkdir /var/www/skills-ez.me
-sudo mkdir /var/www/skills-ez.me/html
-sudo cp -r ~/applications/skillsez/lib/*.* /var/www/skills-ez.me/html
+## Setting up the NGINX Supported website
+    sudo mkdir /var/www/skills-ez.me
+    sudo mkdir /var/www/skills-ez.me/html
+    sudo cp -r ~/applications/skillsez/lib/*.* /var/www/skills-ez.me/html
 
-  sudo chown -R www-data:www-data /var/www/skills-ez.me/html
-sudo tail -f /var/log/nginx/error.log
-sudo find /var/www/skills-ez.me/html -type d -exec chmod 755 {} \;
-sudo find /var/www/skills-ez.me/html -type f -exec chmod 755 {} \;
-sudo usermod -aG www-data $USER
-exit
-sudo -u www-data cat /var/www/skills-ez.me/html/index.html
-sudo systemctl reload nginx
+    sudo chown -R www-data:www-data /var/www/skills-ez.me/html
+    sudo tail -f /var/log/nginx/error.log
+    sudo find /var/www/skills-ez.me/html -type d -exec chmod 755 {} \;
+    sudo find /var/www/skills-ez.me/html -type f -exec chmod 755 {} \;
+    sudo usermod -aG www-data $USER
+    exit
 
-  sudo chown www-data:www-data /var/www/skills-ez.me/app
-  sudo find /var/www/skills-ez.me/html -type d -exec chmod 755 {} \;
-  sudo find /var/www/skills-ez.me/html -type f -exec chmod 755 {} \;
-  sudo usermod -aG www-data $USER
+    sudo -u www-data cat /var/www/skills-ez.me/html/index.html
+    sudo systemctl reload nginx
+
+    sudo chown www-data:www-data /var/www/skills-ez.me/app
+    sudo find /var/www/skills-ez.me/html -type d -exec chmod 755 {} \;
+    sudo find /var/www/skills-ez.me/html -type f -exec chmod 755 {} \;
+    sudo usermod -aG www-data $USER
 
 # Background Service for App
 ## Compile to make it a service
@@ -106,22 +114,22 @@ Description=Dart Frog Backend Service
 After=network.target
 
 [Service]
-# Run as a specific user (highly recommended)
+### Run as a specific user (highly recommended)
 User=www-data
 Group=www-data
 
-# Set the working directory
+### Set the working directory
 WorkingDirectory=/var/www/skills-ez.me/app
 
-# Path to your compiled executable
+### Path to your compiled executable
 ExecStart=/var/www/skills-ez.me/app/server
 
-# Automatically restart on crash
+### Automatically restart on crash
 Restart=always
 RestartSec=5
 
-# Environment variables (optional)
-Environment=GEMINI_API_KEY=gemini_api_pey
+### Environment variables (optional)
+Environment=GEMINI_API_KEY=gemini_api_key
 Environment=PORT=8080
 Environment=NODE_ENV=production
 Environment=DB_PASSWORD=mysql_password
@@ -133,18 +141,53 @@ Environment=DB_USER=rob
 [Install]
 WantedBy=multi-user.target
 
-Starting the service:
+```bash /etc/systemd/system/dart_frog.service
+    
+    [Unit]
+    Description=Dart Frog Backend Service
+    After=network.target
+
+    [Service]
+    # Run as a specific user (highly recommended)
+    User=www-data
+    Group=www-data
+
+    # Set the working directory
+    WorkingDirectory=/var/www/skills-ez.me/app
+
+    # Path to your compiled executable
+    ExecStart=/var/www/skills-ez.me/app/server
+
+    # Automatically restart on crash
+    Restart=always
+    RestartSec=5
+
+    # Environment variables (optional)
+    Environment=GEMINI_API_KEY=<GEMINI_API_KEY>
+    Environment=PORT=8080
+    Environment=NODE_ENV=production
+    Environment=DB_PASSWORD='<mysql_password>'
+    Environment=DB_HOST=localhost
+    Environment=DB_PORT=3306
+    Environment=DB_NAME=SKILLS_EZ
+    Environment=DB_USER=rob
+
+    [Install]
+    WantedBy=multi-user.target
+```
+
+## Starting the service:
 
 sudo systemctl daemon-reload
 sudo systemctl start dart_frog.service
 sudo systemctl enable dart_frog.service
 sudo systemctl status dart_frog.service
 
-Checking that it's running
-sudo lsof -i :8080
+### Checking that it's running
+    sudo lsof -i :8080
 
 
-### Runbook Setting Up SSL/TLS for NGINX
+# Runbook Setting Up SSL/TLS for NGINX
 
 Here’s a minimal, production‑ready Certbot flow for Nginx on skillsez.me:
 
@@ -166,123 +209,125 @@ Example commands (Ubuntu/Debian):
   sudo systemctl status certbot.timer
 
 
-### Runbook for Setting Up NGINX server for skills-ez.me Configuration
+# Runbook for Setting Up NGINX server for skills-ez.me Configuration
 
-Located in: /etc/nginx/sites-available
+Located in: /etc/nginx/sites-available/skills-ez.me
 
-server {
+``` conf
+    server {
 
-    root /var/www/skills-ez.me/html;
-    index index.html index.htm;
+        root /var/www/skills-ez.me/html;
+        index index.html index.htm;
 
-    server_name skillsez.me  www.skillsez.me;
+        server_name skillsez.me  www.skillsez.me;
 
-    location / {
-        try_files $uri $uri/ =404;
+        location / {
+            try_files $uri $uri/ =404;
+        }
+
+        # API (Dart Frog on localhost:8080)
+        location /api/ {
+            proxy_pass http://127.0.0.1:8080/;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        listen 443 ssl; # managed by Certbot
+        listen [::]:443 ssl ipv6only=on; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/skillsez.me/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/skillsez.me/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
     }
+    server {
+        if ($host = www.skillsez.me) {
+            return 301 https://$host$request_uri;
+        } # managed by Certbot
 
-    # API (Dart Frog on localhost:8080)
-    location /api/ {
-        proxy_pass http://127.0.0.1:8080/;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+
+        if ($host = skillsez.me) {
+            return 301 https://$host$request_uri;
+        } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name skillsez.me  www.skillsez.me;
+        return 404; # managed by Certbot
     }
+```
 
-    listen 443 ssl; # managed by Certbot
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/skillsez.me/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/skillsez.me/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+# Runbook for setting up MariaDB Open Connections From Other Servers
 
-
-}
-server {
-    if ($host = www.skillsez.me) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    if ($host = skillsez.me) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    listen 80;
-    listen [::]:80;
-
-    server_name skillsez.me  www.skillsez.me;
-    return 404; # managed by Certbot
-}
-
-### Runbook for setting up MariaDB Open Connections From Other Servers
-
-# Check what interface/ip and port Maria DB listens on
+## Check what interface/ip and port Maria DB listens on
 sudo ss -tulnp | grep mariadb
 
-# Add the line "bind-address = 0.0.0.0" to the 50-server.cnf
+## Add the line "bind-address = 0.0.0.0" to the 50-server.cnf
 sudo /etc/mysql/mariadb.conf.d/vim 50-server.cnf
 
-# Stop the service
+## Stop the service
 sudo systemctl stop mysql
 
-# Check the variable values (this hasn't worked for me)
+## Check the variable values (this hasn't worked for me)
 /usr/bin/mariadb --print-defaults
 
-# Start the service
+## Start the service
 sudo systemctl start mysql
 
-# Check status that it started
+## Check status that it started
 sudo systemctl status mysql
 
-### Runbook for Getting Production Information
+# Runbook for Getting Production Information
 
-# get the name of the service
+## get the name of the service
 systemctl list-units --type=service --state=running
 
-# View the status of the dart_frog.service and PID
+## View the status of the dart_frog.service and PID
 systemctl status dart_frog.service
 
-# Get the PID of the dart_frog.service
+## Get the PID of the dart_frog.service
 PID=$(systemctl status dart_frog.service | grep -Po '(?<=PID: )\d+')
 echo $PID
 
-# View the environment variables of the dart_frog.service using the PID
+## View the environment variables of the dart_frog.service using the PID
 sudo strings /proc/$PID/environ
 
 
-### Runbook Setup Rsync Backup using SSH
+# Runbook Setup Rsync Backup using SSH
 
-# Log into the skills EZ server
+## Log into the skills EZ server
     ssh <sudo-user>@skills-ez-server
 
-# Create backup admin account on skills EZ server
+## Create backup admin account on skills EZ server
     sudo adduser backup-admin
 
-# Grant read access for the backup sources
+## Grant read access for the backup sources
     sudo setfacl -R -m u:backup-admin:rx /var/lib/mysql
     
 ## Setup Backup User on backup server Raspi-ssd
 
-# Log into the backup server Raspi-ssd
+### Log into the backup server Raspi-ssd
     ssh <sudo-user>@raspi-ssd
 
-# Create the backup admin 
+### Create the backup admin 
     sudo adduser backup-admin
 
-# Setup write access
+### Setup write access
     sudo setfacl -R -m u:backup-admin:rwx /mnt/data/skills-ez-server-bu
-# Verify Settings
+### Verify Settings
     getfacl /mnt/data/skills-ez-server-bu
         
 
-# Become the backup admin
+## Become the backup admin
     su - backup-admin
 
-# generate the private/public key pair
+# Generate the private/public key pair
 
     ssh-keygen -t rsa
 
@@ -290,7 +335,7 @@ sudo strings /proc/$PID/environ
 
     When prompted for a passphrase, you can press Enter twice for an empty passphrase if you want fully automated, passwordless operation (common for automated scripts/cron jobs). For interactive use, setting a passphrase adds an extra layer of security. 
 
-# copy the public key to the skills EZ server
+## copy the public key to the skills EZ server
     ssh-copy-id -i ~/.ssh/id_rsa.pub backup-admin@skills-ez-server
 
     The ssh-copy-id command automatically appends your public key to the ~/.ssh/authorized_keys file on the remote server and sets the correct permissions. 
@@ -299,14 +344,14 @@ sudo strings /proc/$PID/environ
 
     cat ~/.ssh/id_rsa.pub | ssh user@remote_host_ip "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys".
 
-# verify SSH access to the remote server
+## verify SSH access to the remote server
 
      ssh backup-admin@skills-ez-server
 
-# Test the backup
+## Test the backup
 rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/skills-ez-server-bu
 
-# Use Rsync with SSH Access
+## Use Rsync with SSH Access
 
     Pushing files (Local to Remote):
         rsync -avz /local/path/ user@remote_host_ip:/remote/path/ 
@@ -344,26 +389,26 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
 
     rsync -avz backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/skills-ez-server-bu
 
-## Setup Cron Job for Backup Admin
+# Setup Cron Job for Backup Admin
 
-# log in as your user
+## log in as your user
 
-# Create a backup file for the Cron Job
+## Create a backup file for the Cron Job
     sudo chown backup-admin:backup-admin /mnt/data/skills-ez-server-bu/skills-ez-backup.log
 
-# Set ownweship on the logfile
+## Set ownweship on the logfile
     sudo chown root:backup-admin /mnt/data/skills-ez-server-bu/skills-ez-backup.log
 
-# Change to backup-admin user
+## Change to backup-admin user
     su - backup-admin
 
-# test the command for the crontab
+## test the command for the crontab
     sudo -u backup-admin /bin/sh -c "cd ~ && rsync -avz  --log-file=/mnt/data/skills-ez-server-bu/skills-ez-backup.log  backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/skills-ez-server-bu"
 
-# Open the crontab for editing
+## Open the crontab for editing
     crontab -e
 
-# Set the job to a short interview for verification
+### Set the job to a short interview for verification
 
     */2 * * * * rsync -avz  --log-file=/mnt/data/skills-ez-server-bu/skills-ez-backup.log  backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/skills-ez-server-bu
 
@@ -374,13 +419,13 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
     (crontab -l | sed 's/^\*\/2\s+*/0 3 */') | crontab - 
 
 
-# Monitor output
+## Monitor output
     tail -f /mnt/data/skills-ez-server-bu/skills-ez-backup.log
 
-# Correct start time
+## Correct start time
     crontab -e
 
-# Update the start time for executing the backup
+## Update the start time for executing the backup
 
     replace */2 * * * * with 0 3 * * *
 
@@ -388,14 +433,14 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
 
     This will run the RSYNC command at 03 (3 AM) Each Morning, logging the output to the log file.
 
-# Verify the crontab update was correct by running
+## Verify the crontab update was correct by running
     contrab -l
 
-### Setting up MySQL Logging
+# Setting up MySQL Logging
 
     Changes are made to the file:  /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Setting up testing/debugging logging
+## Setting up testing/debugging logging
     # Note: The configured log file or its directory need to be created
     # and be writable by the mysql user, e.g.:
     # $ sudo mkdir -m 2750 /var/log/mysql
@@ -407,72 +452,73 @@ rsync -avz --dry-run backup-admin@skills-ez-server:/var/lib/mysql/ /mnt/data/ski
     general_log_file       = /var/log/mysql/mysql.log
     general_log            = 1
 
-# Monitoring the log file
+## Monitoring the log file
     sudo tail -f /var/log/mysql/mysql.log
 
 
-# Setting up logging to the system logs
+## Setting up logging to the system logs
     # When running under systemd, error logging goes via stdout/stderr to journald
     # and when running legacy init error logging goes to syslog due to
     # /etc/mysql/conf.d/mariadb.conf.d/50-mysqld_safe.cnf
     # Enable this if you want to have error logging into a separate file
     log_error = /var/log/mysql/error.log
 
-### Monitor System Log Files (or the local log file) 
+# Monitor System Log Files (or the local log file) 
     sudo tail -f /var/log/mysql/error.log
-# Viewing the system logs
+
+## Viewing the system logs
     sudo journalctl -u mysql.service
 
-# monitoring in real-time
+## monitoring in real-time
     sudo journalctl -u mysql.service -f
 
 
-### MySQL Performance Monitoring
+# MySQL Performance Monitoring
 
 https://mariadb.com/docs/server/reference/system-tables/performance-schema/performance-schema-overview
 
-# Check if Performance Schema is On
+## Check if Performance Schema is On
     SHOW VARIABLES LIKE 'performance_schema';
     OR
     SHOW VARIABLES LIKE "perf%";
 
-# To start Edit the /etc/mysql/my.cnf and add the lines
+## To start Edit the /etc/mysql/my.cnf and add the lines
     [mysqld]
     performance_schema=ON
 
-# Restart the mysql service
+## Restart the mysql service
     sudo systemctl stop mysql
     sudo systemctl start mysql
 
     OR 
     sudo systemctl reload mysql
 
-# check the status of the service
+## check the status of the service
     sudo systemctl status mysql
 
-# Start a MySQL session
+## Start a MySQL session
     mysql -u root -p
 
-# Enable the Performance Scheme 
+## Enable the Performance Scheme 
     UPDATE performance_schema.setup_consumers SET ENABLED = 'YES';
     UPDATE performance_schema.setup_instruments SET ENABLED = 'YES', TIMED = 'YES';
 
 
-### Correcting Error Conditions
+# Correcting Error Conditions
 ## Update Profile Failed
 
-# Interface Error
+### Interface Error
     [PUT /user/2] Internal server error: MySQLClientException: Can not close connection. Connection state is not in connectionEstablished state
 
-# Log File Error
+### Log File Error
     260213 15:53:19	    7 Connect	rob@localhost on SKILLS_EZ using SSL/TLS
 		                7 Connect	Access denied for user 'rob'@'localhost' (using password: YES)
 
-# Root Cause
+### Root Cause
     The user DB_USER password was changed in the database and this caused the interface to fail.
 
-# Fix
+### Fix
     Changing the DB_USER password back to the correct password (see production project secrets in github) fixed the issue.
 
-# Solution
+### Solution
     Note in the configuration documents that the database password must by syncronized in the deployment documents. Perhaps also have a procedure for changing the passwords in the database.
